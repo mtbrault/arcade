@@ -5,6 +5,8 @@
 // Lib Loader
 //
 
+#include "Loader.hpp"
+
 Loader::Loader() 
 {
 

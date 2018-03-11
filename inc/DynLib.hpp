@@ -5,6 +5,9 @@
 // Game interface
 //
 
+#ifndef DYNLIB_HPP_
+# define DYNLIB_HPP_
+
 namespace   DynLib {
 
     enum    ENTITY {                
@@ -12,13 +15,13 @@ namespace   DynLib {
         ENNEMY,
         OBSTACLE,
         ITEM
-    }
+    };
 
     class   Game {
     public:
         virtual ~Game() = 0;
 
-        virtual void            aff(DynLib::Gfx &) = 0;
+        //virtual void            aff() = 0;
         virtual bool            checkEnd() = 0;
         virtual std::string     getSprite() = 0;
         virtual char            getChar() = 0;
@@ -45,3 +48,5 @@ namespace   DynLib {
     };
 
 }
+
+#endif
