@@ -17,10 +17,29 @@ HardCade::~HardCade()
 }
 
 void    HardCade::loadLibs(const std::string &first) {
-    std::cout << "Load\nfirst is "<< first << "\n";
+    std::cout << "Load - first is "<< first << "\n";
+}
+
+void    HardCade::showMenu()
+{
+}
+
+void    HardCade::listen()
+{   
 }
 
 void    HardCade::run()
 {
-    std::cout << "Run\n";
+    if (!libs.size() || !games.size()) {
+        std::cerr << "Error: No lib loaded" << std::endl;
+        return ;
+    }
+    while (!libs.front()->checkKey(27)) {
+        this->showMenu();
+        while (!libs.front()->checkKey(27) && !games.front()->checkEnd()) {
+            games.front()->aff();
+            this->listen();
+        }
+        this->listen();
+    }
 }

@@ -24,6 +24,10 @@ public:
     void    run();
 
 private:
+
+    void    listen();
+    void    showMenu();
+
     std::vector<std::unique_ptr<DynLib::Gfx>>    libs;
     std::vector<std::unique_ptr<DynLib::Game>>   games;
 };
