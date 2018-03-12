@@ -20,6 +20,9 @@ Loader::Loader(const std::string &fname)
 
 Loader::~Loader() 
 {
-	dlclose(_handle);
+	if ((dlclose(_handle)) != 0) {
+		std::string err("Library cannot be closed\n");
+		std::cerr << err;
+	}
 }
 
