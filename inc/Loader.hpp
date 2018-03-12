@@ -5,11 +5,18 @@
 // Lib Loader
 //
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <dlfcn.h>
+#include <iostream>
+#include <string>
+
 class   Loader {
 public:
-    Loader();
-    ~Loader();
+	Loader(const std::string &fname);
+	~Loader();
 
 private:
-    
+	void		*_handle;
+	std::string	_fname;
 };

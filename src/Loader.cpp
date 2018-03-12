@@ -5,14 +5,21 @@
 // Lib Loader
 //
 
+#include "HardError.hpp"
 #include "Loader.hpp"
 
-Loader::Loader() 
+Loader::Loader(const std::string &fname)
+	: _fname(fname)
 {
-
+	_handle = dlopen(_fname.c_str(), RTLD_NOW);
+	if (!_handle) {
+		std::string err = dlerror();
+		throw Error(err);
+	}
 }
 
 Loader::~Loader() 
 {
-
+	dlclose(_handle);
 }
+

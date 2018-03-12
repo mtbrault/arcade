@@ -5,10 +5,11 @@
 // Main program
 //
 
+#include "HardError.hpp"
 #include "HardCade.hpp"
 
-HardCade::HardCade()
-    :Loader()
+HardCade::HardCade(const std::string &first)
+	: Loader(first)
 {
 }
 
@@ -16,8 +17,9 @@ HardCade::~HardCade()
 {
 }
 
-void    HardCade::loadLibs(const std::string &first) {
-    std::cout << "Load - first is "<< first << "\n";
+void    HardCade::loadLibs(const std::string &first)
+{
+	(void) first;
 }
 
 void    HardCade::showMenu()

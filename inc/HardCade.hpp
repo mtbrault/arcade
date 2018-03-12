@@ -17,19 +17,18 @@
 
 class   HardCade : public Loader {
 public:
-    HardCade();
-    ~HardCade();
-
-    void    loadLibs(const std::string &);
-    void    run();
+	HardCade(const std::string &first);
+	~HardCade();
+	void    run();
+	void	loadLibs(const std::string &first);
 
 private:
 
-    void    listen();
-    void    showMenu();
+	void    listen();
+	void    showMenu();
 
-    std::vector<std::unique_ptr<DynLib::Gfx>>    libs;
-    std::vector<std::unique_ptr<DynLib::Game>>   games;
+	std::vector<std::unique_ptr<DynLib::Gfx>>    libs;
+	std::vector<std::unique_ptr<DynLib::Game>>   games;
 };
 
 #endif

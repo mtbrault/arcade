@@ -12,8 +12,9 @@ CC	=	g++
 RM	=	rm -f
 
 SRCS	=	./src/Main.cpp		\
-			./src/HardCade.cpp \
-		./src/Loader.cpp	
+		./src/HardCade.cpp	\
+		./src/Loader.cpp	\
+		./src/HardError.cpp
 
 CPPFLAGS =	-I ./inc
 CPPFLAGS +=	-W -Wall -Wextra -Werror -std=c++14
@@ -21,12 +22,12 @@ CPPFLAGS +=	-W -Wall -Wextra -Werror -std=c++14
 OBJS	=	$(SRCS:.cpp=.o)
 
 CPPFLAGS =	-I ./inc
-CPPFLAGS +=	-W -Wall -Wextra
+CPPFLAGS +=	-W -Wall -Wextra -ldl
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $(NAME) $(LDFLAGS)
+	$(CC) $(OBJS) -o $(NAME) $(CPPFLAGS)
 
 clean:
 	$(RM) $(OBJS)
