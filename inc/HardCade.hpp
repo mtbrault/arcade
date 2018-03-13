@@ -20,7 +20,7 @@ public:
 	HardCade(const std::string &first);
 	~HardCade();
 	void    run();
-	void	loadLibs(const std::string &first);
+	void	loadLibs();
 
 private:
 
