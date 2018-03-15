@@ -26,12 +26,14 @@ all: core games graphicals
 core: $(OBJS)
 	$(CXX) $(OBJS) -o $(NAME)  $(CXXFLAGS)
 
-games:  make -C ./games/Pacman
-	make -C ./games/Nibbler
+games:
+	make -C games/Pacman/
+	make -C games/Nibbler/
 
-graphicals:	make -C ./lib/Ncurses
-		make -C ./lib/OpenGL
-		make -C ./lib/SFML
+graphicals:
+	make -C ./lib/Ncurses
+	make -C ./lib/OpenGL
+	make -C ./lib/SFML
 
 clean:
 	$(RM) $(OBJS)
@@ -51,4 +53,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: core games graphicals all clean fclean re

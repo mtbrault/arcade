@@ -18,11 +18,11 @@ public:
 	Loader(const std::string &fname);
 	~Loader();
 
-	void    fillLibrary();
+	void	fillLibrary();
 	void	loadDynamic(std::string lname);
 	void	setLibrary(std::vector<std::string> &, std::string path);
 	std::vector<std::string>        &getGfx();
-	std::vector<std::string>        &getGames();
+	std::vector<std::string>	&getGames();
 private:
 	void		*_handle;
 	std::string	_fname;
