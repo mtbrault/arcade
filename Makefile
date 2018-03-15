@@ -29,9 +29,9 @@ core: $(OBJS)
 games:  make -C ./games/Pacman
 	make -C ./games/Nibbler
 
-graphicals:	make -C ./libs/Ncurses
-		make -C ./libs/OpenGL
-		make -C ./libs/SFML
+graphicals:	make -C ./lib/Ncurses
+		make -C ./lib/OpenGL
+		make -C ./lib/SFML
 
 clean:
 	$(RM) $(OBJS)
