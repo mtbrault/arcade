@@ -37,17 +37,17 @@ clean:
 	$(RM) $(OBJS)
 	make clean -C ./games/Pacman
 	make clean -C ./games/Nibbler
-	make clean -C ./libs/Ncurses
-	make clean -C ./libs/OpenGL
-	make clean -C ./libs/SFML
+	make clean -C ./lib/Ncurses
+	make clean -C ./lib/OpenGL
+	make clean -C ./lib/SFML
 
 fclean: clean
 	$(RM) $(NAME)
 	make fclean -C ./games/Pacman
 	make fclean -C ./games/Nibbler
-	make fclean -C ./libs/Ncurses
-	make fclean -C ./libs/OpenGL
-	make fclean -C ./libs/SFML
+	make fclean -C ./lib/Ncurses
+	make fclean -C ./lib/OpenGL
+	make fclean -C ./lib/SFML
 
 re: fclean all
 
