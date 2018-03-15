@@ -1,39 +1,53 @@
 ##
 ## EPITECH PROJECT, 2018
-## Nanotekspice
+## Arcade
 ## File description:
-## Makefile
+## Core program Makefile
 ##
 
-NAME	=	arcade
-
-CC	=	g++
+CXX	=	g++
 
 RM	=	rm -f
+
+NAME	=	arcade
 
 SRCS	=	./src/Main.cpp		\
 		./src/HardCade.cpp	\
 		./src/Loader.cpp	\
 		./src/HardError.cpp
 
-CPPFLAGS =	-I ./inc
-CPPFLAGS +=	-W -Wall -Wextra -Werror -std=c++14
+CXXFLAGS =	-I ./inc
+CXXFLAGS +=	-W -Wall -Wextra -Werror -std=c++14
 
 OBJS	=	$(SRCS:.cpp=.o)
 
-CPPFLAGS =	-I ./inc
-CPPFLAGS +=	-W -Wall -Wextra -ldl
+all: core games graphicals
 
-all: $(NAME)
+core: $(OBJS)
+	$(CXX) $(OBJS) -o $(NAME)  $(CXXFLAGS)
 
-$(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $(NAME) $(CPPFLAGS)
+games:  make -C ./games/Pacman
+	make -C ./games/Nibbler
+
+graphicals:	make -C ./libs/Ncurses
+		make -C ./libs/OpenGL
+		make -C ./libs/SFML
 
 clean:
 	$(RM) $(OBJS)
+	make clean -C ./games/Pacman
+	make clean -C ./games/Nibbler
+	make clean -C ./libs/Ncurses
+	make clean -C ./libs/OpenGL
+	make clean -C ./libs/SFML
 
 fclean: clean
 	$(RM) $(NAME)
+	make fclean -C ./games/Pacman
+	make fclean -C ./games/Nibbler
+	make fclean -C ./libs/Ncurses
+	make fclean -C ./libs/OpenGL
+	make fclean -C ./libs/SFML
 
 re: fclean all
 
