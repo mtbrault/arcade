@@ -17,7 +17,7 @@ SRCS	=	./src/Main.cpp		\
 		./src/HardError.cpp
 
 CXXFLAGS =	-I ./inc
-CXXFLAGS +=	-W -Wall -Wextra -Werror -std=c++14
+CXXFLAGS +=	-W -Wall -Wextra -Werror -ldl -std=c++14
 
 OBJS	=	$(SRCS:.cpp=.o)
 
