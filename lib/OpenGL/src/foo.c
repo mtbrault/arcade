@@ -5,10 +5,10 @@
 // cpp_arcade
 //
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GL/glut.h>
 #include <stdlib.h>
+#include "GL/gl.h"
+#include "GL/glu.h"
+#include "GL/glut.h"
 
 void quad()
 {
@@ -54,6 +54,11 @@ void keyboard(unsigned char key,int x,int y)
 
 int main(int argc, char **argv)
 {
+	char *myargv [1];
+	int myargc=1;
+	myargv [0]=strdup ("Myappname");
+	glutInit(&myargc, myargv);
+
 	// Double Buffered RGB display
 	glutInitDisplayMode( GLUT_RGB | GLUT_DOUBLE);
 	// Set window size
