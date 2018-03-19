@@ -5,7 +5,7 @@
 ## Core program Makefile
 ##
 
-CXX	=	g++
+CXX	=	g++ -g3
 
 RM	=	rm -f
 

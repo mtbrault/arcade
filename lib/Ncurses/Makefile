@@ -9,9 +9,9 @@ CXX		= g++
 
 RM		= rm -f
 
-NAME		= lib_arcade_ncurses.so
+NAME		= ../lib_arcade_ncurses.so
 
-SRC		= src/main.cpp
+SRC		= src/LibGFX.cpp
 
 CXXFLAGS	+= -I ./inc
 CXXFLAGS	+= -W -Wall -Wextra -Werror -fpic

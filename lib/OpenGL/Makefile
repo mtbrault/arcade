@@ -9,9 +9,9 @@ CXX		= g++
 
 RM		= rm -f
 
-NAME		= lib_arcade_opengl.so
+NAME		= ../lib_arcade_opengl.so
 
-SRC		= src/foo.cpp
+SRC		= src/LibGFX.cpp
 
 CXXFLAGS	+= -I ./inc
 CXXFLAGS	+= -W -Wall -Wextra -Werror -fpic -lglut -lGLU -lGL -lm

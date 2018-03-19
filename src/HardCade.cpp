@@ -19,7 +19,11 @@ HardCade::~HardCade()
 
 void    HardCade::loadLibs()
 {
+	std::vector<std::string> gfxLib;
 	Loader::fillLibrary();
+	gfxLib = Loader::getGfx();
+	for (auto it = gfxLib.begin() ; it != gfxLib.end() ; it++)
+		Loader::loadDynamic(*it);
 }
 
 void    HardCade::showMenu()

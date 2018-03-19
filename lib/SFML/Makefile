@@ -9,9 +9,9 @@ CXX		= g++
 
 RM		= rm -f
 
-NAME		= lib_arcade_sfml.so
+NAME		= ../lib_arcade_sfml.so
 
-SRC		= src/main.cpp
+SRC		= src/LibGFX.cpp
 
 CXXFLAGS	+= -I ./inc
 CXXFLAGS	+= -W -Wall -Wextra -Werror -fpic
