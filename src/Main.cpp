@@ -20,6 +20,7 @@ int	main(int ac, char **av)
 		arc.loadLibs();
 	} catch (const Error &error) {
 		std::cerr << error.what() << std::endl;
+		return (84);
 	}
 	return (0);
 }
