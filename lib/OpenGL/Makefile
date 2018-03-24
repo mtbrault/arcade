@@ -13,7 +13,7 @@ NAME		= ../lib_arcade_opengl.so
 
 SRC		= src/LibGFX.cpp
 
-CXXFLAGS	+= -I ./inc
+CXXFLAGS	+= -I ./inc -I ../../inc
 CXXFLAGS	+= -W -Wall -Wextra -Werror -fpic -lglut -lGLU -lGL -lm
 
 OBJS		= $(SRC:.cpp=.o)

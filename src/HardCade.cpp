@@ -19,11 +19,29 @@ HardCade::~HardCade()
 
 void    HardCade::loadLibs()
 {
-	std::vector<std::string> gfxLib;
+	std::vector<std::string>	gfxLib;
+	std::vector<std::string>        gameLib;
+
 	Loader::fillLibrary();
 	gfxLib = Loader::getGfx();
-	for (auto it = gfxLib.begin() ; it != gfxLib.end() ; it++)
-		Loader::loadDynamic(*it);
+	gameLib = Loader::getGames();
+	putVector(gfxLib);
+	putVector(gameLib);
+}
+
+void	HardCade::putVector(std::vector<std::string> &myLib)
+{
+	void	*ptr;
+
+	for (auto it = myLib.begin() ; it != myLib.end() ; it++) {
+		ptr = Loader::loadDynamic(*it);
+		if (ptr != nullptr && myLib.size() == 3)
+			libs.push_back((DynLib::Gfx*)ptr);
+		else if (myLib.size() == 2)
+			games.push_back((DynLib::Game*)ptr);
+		else
+			throw Error("Error while loading dynamicaly a library\n");
+	}	
 }
 
 void    HardCade::showMenu()
@@ -31,21 +49,22 @@ void    HardCade::showMenu()
 }
 
 void    HardCade::listen()
-{   
+{
+	
 }
 
 void    HardCade::run()
 {
-	if (!libs.size() || !games.size()) {
-		std::cerr << "Error: No lib loaded" << std::endl;
-		return ;
-	}
-	while (!libs.front()->checkKey(27)) {
-		this->showMenu();
-		while (!libs.front()->checkKey(27) && !games.front()->checkEnd()) {
-			games.front()->aff();
-			this->listen();
-		}
-		this->listen();
-	}
+	// if (!libs.size() || !games.size()) {
+	// 	std::cerr << "Error: No lib loaded" << std::endl;
+	// 	return ;
+	// }
+	// while (!libs.front()->checkKey(27)) {
+	// 	this->showMenu();
+	// 	while (!libs.front()->checkKey(27) && !games.front()->checkEnd()) {
+	// 		games.front()->aff();
+	// 		this->listen();
+	// 	}
+	// 	this->listen();
+	// }
 }

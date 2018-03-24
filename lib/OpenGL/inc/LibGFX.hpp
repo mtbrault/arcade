@@ -5,13 +5,19 @@
 // OpenGL LibGFX header
 //
 
-#ifndef LIBGFX_HPP_
-# define LIBGFX_HPP_
+#ifndef LibGFX_HPP_
+# define LibGFX_HPP_
 
-class   LibGFX {
-public:
-	LibGFX();
-	virtual void	init();
-};
+# include "DynLib.hpp"
 
+namespace DynLib {
+	class   LibGFX : public Gfx {
+	public:
+		LibGFX();
+		virtual ~LibGFX() {};
+
+	        virtual void	init();
+		virtual bool	checkKey(int);
+	};
+}
 #endif

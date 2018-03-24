@@ -19,7 +19,7 @@ public:
 	~Loader();
 
 	void	fillLibrary();
-	void	loadDynamic(std::string lname);
+        void	*loadDynamic(std::string lname);
 	void	setLibrary(std::vector<std::string> &, std::string path);
 	std::vector<std::string>        &getGfx();
 	std::vector<std::string>	&getGames();

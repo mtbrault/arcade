@@ -21,14 +21,15 @@ public:
 	~HardCade();
 	void    run();
 	void	loadLibs();
+	void	putVector(std::vector<std::string> &myLib);
 
 private:
 
 	void    listen();
 	void    showMenu();
 
-	std::vector<std::unique_ptr<DynLib::Gfx>>    libs;
-	std::vector<std::unique_ptr<DynLib::Game>>   games;
+	std::vector<DynLib::Gfx *>    libs;
+	std::vector<DynLib::Game *>   games;
 };
 
 #endif

@@ -9,11 +9,11 @@ CXX		= g++
 
 RM		= rm -f
 
-NAME		= lib_arcade_pacman.so
+NAME		= ../lib_arcade_pacman.so
 
-SRC		= src/main.cpp
+SRC		= src/LibGame.cpp
 
-CXXFLAGS	+= -I ./inc
+CXXFLAGS	+= -I ./inc -I ../../inc
 CXXFLAGS	+= -W -Wall -Wextra -Werror -fpic
 
 OBJS		= $(SRC:.cpp=.o)

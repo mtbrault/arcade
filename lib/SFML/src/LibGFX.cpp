@@ -8,16 +8,25 @@
 #include "LibGFX.hpp"
 #include <iostream>
 
-extern "C" LibGFX *create_obj()
-{
-	return new LibGFX;
-}
+namespace DynLib {
 
-LibGFX::LibGFX()
-{
-}
+	extern "C" Gfx *getObj()
+	{
+		return new LibGFX;
+	}
 
-void    LibGFX::init()
-{
-	std::cout << "je suis sfml" << std::endl;
+	LibGFX::LibGFX()
+	{
+	}
+	
+	void    LibGFX::init()
+	{
+		std::cout << "je suis sfml" << std::endl;
+	}
+	
+	bool	LibGFX::checkKey(int a)
+	{
+		(void) a;
+		return true;
+	}
 }
