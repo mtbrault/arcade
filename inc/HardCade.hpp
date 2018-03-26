@@ -25,11 +25,17 @@ public:
 
 private:
 
+	enum	status_e {
+		MENU,
+		INGAME
+	};
+	
 	void    listen();
 	void    showMenu();
 
-	std::vector<DynLib::Gfx *>    libs;
-	std::vector<DynLib::Game *>   games;
+	std::vector<DynLib::Gfx *>	libs;
+	std::vector<DynLib::Game *>	games;
+	status_e			status;
 };
 
 #endif

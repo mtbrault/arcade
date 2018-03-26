@@ -22,24 +22,31 @@ namespace DynLib {
 	void    LibGFX::init()
 	{
 		std::cout << "Loading - Ncurses Library" << std::endl;
+		initscr();
 	}
 	
 	void	LibGFX::destroy()
 	{
+		endwin();
 	}
 	
 	bool	LibGFX::checkKey(int a)
 	{
-		(void) a;
-		return true;
+		int c = getch();
+		return (a == c);
 	}
 
-	void    display(std::pair<std::size_t, std::size_t>,
-			DynLib::ENTITY, DynLib::Game &)
+	void    display(std::pair<std::size_t, std::size_t> coord,
+			DynLib::ENTITY, DynLib::Game &game)
 	{
+		mvprintw(coord.second, coord.first, "%c", game.getChar());
+		refresh();
 	}
 
-	void    dispText(std::pair<std::size_t, std::size_t>, std::string)
+	void    dispText(std::pair<std::size_t, std::size_t> coord,
+			 std::string str)
 	{
+		mvprintw(coord.second, coord.first, str.c_str());
+		refresh();
 	}
 }

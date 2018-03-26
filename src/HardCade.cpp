@@ -9,7 +9,7 @@
 #include "HardCade.hpp"
 
 HardCade::HardCade(const std::string &first)
-	: Loader(first)
+	: Loader(first), status(HardCade::status_e::MENU)
 {
 }
 
@@ -61,7 +61,8 @@ void    HardCade::run()
 	}
 	while (!libs.front()->checkKey(27)) {
 		this->showMenu();
-		while (!libs.front()->checkKey(27) && !games.front()->checkEnd()) {
+		while (status == HardCade::status_e::INGAME &&
+		       !libs.front()->checkKey(27) && !games.front()->checkEnd()) {
 			games.front()->aff();
 			this->listen();
 		}
