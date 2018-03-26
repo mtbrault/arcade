@@ -28,4 +28,19 @@ namespace DynLib {
 	{
 		return true;
 	}
+
+	std::string	LibGame::getSprite()
+	{
+		return ("t");
+	}
+
+	char	LibGame::getChar()
+	{
+		return ('c');
+	}
+
+	int	LibGame::getColor()
+	{
+		return (1);
+	}
 }

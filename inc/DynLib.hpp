@@ -25,9 +25,9 @@ namespace   DynLib {
 
 		virtual void            aff() = 0;
 		virtual bool            checkEnd() = 0;
-//		virtual std::string     getSprite() = 0;
-//		virtual char            getChar() = 0;
-//		virtual int             getColor() = 0;
+		virtual std::string     getSprite() = 0;
+		virtual char            getChar() = 0;
+		virtual int             getColor() = 0;
 	};
 
 	class   Gfx {
@@ -35,10 +35,10 @@ namespace   DynLib {
 		virtual ~Gfx() = default;
 
 		virtual void    init() = 0;
-//		virtual void    destroy() = 0;
-//		virtual void    display(std::pair<std::size_t, std::size_t>, 
-//					DynLib::ENTITY, DynLib::Game &) = 0;
-//		virtual void    dispText(std::pair<std::size_t, std::size_t>, std::string) = 0;
+		virtual void    destroy() = 0;
+		virtual void    display(std::pair<std::size_t, std::size_t>, 
+					DynLib::ENTITY, DynLib::Game &) = 0;
+		virtual void    dispText(std::pair<std::size_t, std::size_t>, std::string) = 0;
 		virtual bool    checkKey(int) = 0;
 	};
 

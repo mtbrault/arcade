@@ -23,10 +23,23 @@ namespace DynLib {
 	{
 		std::cout << "Loading - SFML Library" << std::endl;
 	}
+
+	void	LibGFX::destroy()
+	{
+	}
 	
 	bool	LibGFX::checkKey(int a)
 	{
 		(void) a;
 		return true;
+	}
+
+	void    display(std::pair<std::size_t, std::size_t>,
+			DynLib::ENTITY, DynLib::Game &)
+	{
+	}
+
+	void    dispText(std::pair<std::size_t, std::size_t>, std::string)
+	{
 	}
 }

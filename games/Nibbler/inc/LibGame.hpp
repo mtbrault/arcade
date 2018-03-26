@@ -18,6 +18,9 @@ namespace DynLib {
 
 	        virtual void    aff();
 		virtual bool	checkEnd();
+		virtual std::string     getSprite();
+		virtual char            getChar();
+		virtual int             getColor();
 	};
 }
 #endif
