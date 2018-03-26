@@ -21,6 +21,11 @@ namespace DynLib {
 	
 	void    LibGame::aff()
 	{
-		std::cout << "je suis pacman" << std::endl;
+		std::cout << "Loading - Pacman Game" << std::endl;
+	}
+	
+	bool	LibGame::checkEnd()
+	{
+		return true;
 	}
 }

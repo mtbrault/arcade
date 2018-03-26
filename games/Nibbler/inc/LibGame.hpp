@@ -17,6 +17,7 @@ namespace DynLib {
 		virtual ~LibGame() {};
 
 	        virtual void    aff();
+		virtual bool	checkEnd();
 	};
 }
 #endif

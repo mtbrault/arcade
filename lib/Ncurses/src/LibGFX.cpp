@@ -21,7 +21,7 @@ namespace DynLib {
 	
 	void    LibGFX::init()
 	{
-		std::cout << "je suis ncurses" << std::endl;
+		std::cout << "Loading - Ncurses Library" << std::endl;
 	}
 	bool	LibGFX::checkKey(int a)
 	{

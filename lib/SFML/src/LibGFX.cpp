@@ -21,7 +21,7 @@ namespace DynLib {
 	
 	void    LibGFX::init()
 	{
-		std::cout << "je suis sfml" << std::endl;
+		std::cout << "Loading - SFML Library" << std::endl;
 	}
 	
 	bool	LibGFX::checkKey(int a)

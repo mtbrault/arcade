@@ -8,6 +8,7 @@
 #ifndef LibGFX_HPP_
 # define LibGFX_HPP_
 
+# include <GL/glut.h>
 # include "DynLib.hpp"
 
 namespace DynLib {

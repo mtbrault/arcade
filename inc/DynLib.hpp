@@ -24,7 +24,7 @@ namespace   DynLib {
 		virtual ~Game() = default;
 
 		virtual void            aff() = 0;
-//		virtual bool            checkEnd() = 0;
+		virtual bool            checkEnd() = 0;
 //		virtual std::string     getSprite() = 0;
 //		virtual char            getChar() = 0;
 //		virtual int             getColor() = 0;
