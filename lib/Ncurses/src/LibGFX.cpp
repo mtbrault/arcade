@@ -10,7 +10,7 @@
 
 namespace DynLib {
 
-	extern "C" Gfx *getObj()
+	extern "C" IGfx *getObj()
 	{
 		return new LibGFX;
 	}
@@ -19,8 +19,10 @@ namespace DynLib {
 	{
 	}
 	
-	void    LibGFX::init()
+	void    LibGFX::init(int a, int b)
 	{
+		(void)a;
+		(void)b;
 		std::cout << "Loading - Ncurses Library" << std::endl;
 		initscr();
 	}
@@ -30,16 +32,22 @@ namespace DynLib {
 		endwin();
 	}
 	
-	bool	LibGFX::checkKey(int a)
+	int	LibGFX::getKey()
 	{
 		int c = getch();
-		return (a == c);
+		return (c);
+	}
+
+	int	LibGFX::getLastKey()
+	{
+		int c = getch();
+		return (c);
 	}
 
 	void    display(std::pair<std::size_t, std::size_t> coord,
-			DynLib::ENTITY, DynLib::Game &game)
+			DynLib::ENTITY, DynLib::IGame &game)
 	{
-		mvprintw(coord.second, coord.first, "%c", game.getChar());
+		mvprintw(coord.second, coord.first, "%c", (char)game.getChar());
 		refresh();
 	}
 

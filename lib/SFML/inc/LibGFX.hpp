@@ -11,7 +11,7 @@
 # include "DynLib.hpp"
 
 namespace DynLib {
-	class   LibGFX : public Gfx {
+	class   LibGFX : public IGfx {
 	public:
 		LibGFX();
 		virtual ~LibGFX() {};

@@ -12,17 +12,23 @@
 #include "DynLib.hpp"
 
 namespace DynLib {
-	class   LibGFX : public Gfx {
+	class   LibGFX : public IGfx {
 	public:
 		LibGFX();
 		virtual ~LibGFX() {};
 
-		void	init();
-		void    destroy();
-		bool	checkKey(int);
-		void    display(std::pair<std::size_t, std::size_t>, 
-					DynLib::ENTITY, DynLib::Game &);
-		void    dispText(std::pair<std::size_t, std::size_t>, std::string);
+		void init(int, int);
+		virtual void destroy();
+		virtual void display(int x, int y, ENTITY entity);
+		virtual void refresh();
+		virtual void clear();
+		virtual int getKey();
+		virtual int getLastKey();
+		virtual ENTITY getOnWin(int x, int y);
+		// virtual void    display(std::pair<std::size_t, std::size_t>,                                  
+		//                         ENTITY, DynLib::IGame &) = 0;                                         
+		virtual void dispText(int x, int y, std::string);
+
        };
 }
 #endif

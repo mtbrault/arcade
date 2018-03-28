@@ -33,8 +33,8 @@ private:
 	void    listen();
 	void    showMenu();
 
-	std::vector<DynLib::Gfx *>	libs;
-	std::vector<DynLib::Game *>	games;
+	std::vector<DynLib::IGfx *>	libs;
+	std::vector<DynLib::IGame *>	games;
 	status_e			status;
 };
 

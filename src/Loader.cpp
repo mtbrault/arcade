@@ -37,16 +37,10 @@ void	Loader::setLibrary(std::vector<std::string> &myLib, std::string path)
 	if (auto dir = opendir(path.c_str())) { 
 		while (auto f = readdir(dir)) {
 			_libname = f->d_name;
-			if (_libname.at(0) != '.' && _libname.find(".so") != std::string::npos)
-				if (path == "./lib") {
-					myLib.push_back("lib/" + _libname);
-				} else if (path == "./games") {
-					myLib.push_back("games/" + _libname);
-				}
-				else 
-					continue;
-			else
-				continue;
+			if (_libname.at(0) != '.' && _libname.find(".so") != std::string::npos) {
+				if (path == "./lib" || path == "./games")
+					myLib.push_back(path + "/" + _libname);
+			}
 		}
 		closedir(dir);
 	}	

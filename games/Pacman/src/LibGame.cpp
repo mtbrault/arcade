@@ -10,7 +10,7 @@
 
 namespace DynLib {
 
-	extern "C" Game *getObj()
+	extern "C" IGame *getObj()
 	{
 		return new LibGame;
 	}

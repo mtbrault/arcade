@@ -36,9 +36,9 @@ void	HardCade::putVector(std::vector<std::string> &myLib)
 	for (auto it = myLib.begin() ; it != myLib.end() ; it++) {
 		ptr = Loader::loadDynamic(*it);
 		if (ptr != nullptr && myLib.size() == 3)
-			libs.push_back((DynLib::Gfx*)ptr);
+			libs.push_back((DynLib::IGfx*)ptr);
 		else if (myLib.size() == 2)
-			games.push_back((DynLib::Game*)ptr);
+			games.push_back((DynLib::IGame*)ptr);
 		else
 			throw Error("Error while loading dynamicaly a library\n");
 	}	
@@ -59,10 +59,10 @@ void    HardCade::run()
 		std::cerr << "Error: No lib loaded" << std::endl;
 		return ;
 	}
-	while (!libs.front()->checkKey(27)) {
+	while (libs.front()->getLastKey() == 27) {
 		this->showMenu();
 		while (status == HardCade::status_e::INGAME &&
-		       !libs.front()->checkKey(27) && !games.front()->checkEnd()) {
+		       libs.front()->getLastKey() != 27 && !games.front()->checkEnd()) {
 			games.front()->aff();
 			this->listen();
 		}

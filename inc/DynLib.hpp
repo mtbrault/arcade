@@ -2,46 +2,59 @@
 // EPITECH PROJECT, 2018
 // cpp_arcade
 // File description:
-// Game interface
+// Gfx & Gamex interface
 //
 
-#ifndef DYNLIB_HPP_
-# define DYNLIB_HPP_
-
 #include <string>
+// #include <SFML/Window.hpp>
+// #include <SFML/Graphics.hpp>
+// #include "WinSize.hpp"
+
+#ifndef DYNLIB_HPP
+# define DYNLIB_HPP
 
 namespace   DynLib {
 
-	enum    ENTITY {                
-		PLAYER,
-		ENNEMY,
-		OBSTACLE,
-		ITEM
-	};
+    enum ENTITY {
+        PLAYER,
+        ENEMY,
+        OBSTACLE,
+        ITEM,
+    	WALL,
+        NONE
+    };
 
-	class   Game {
-	public:
-		virtual ~Game() = default;
+    class   IGfx {
+    public:
+        virtual ~IGfx() = 0;
 
-		virtual void            aff() = 0;
-		virtual bool            checkEnd() = 0;
-		virtual std::string     getSprite() = 0;
-		virtual char            getChar() = 0;
-		virtual int             getColor() = 0;
-	};
+        virtual void init(int, int) = 0;
+        virtual void destroy() = 0;
+        virtual void display(int x, int y, ENTITY entity) = 0;
+        virtual void refresh() = 0;
+        virtual void clear() = 0;
+        virtual int getKey() = 0;
+        virtual int getLastKey() = 0;
+        virtual ENTITY getOnWin(int x, int y) = 0;
+        // virtual void    display(std::pair<std::size_t, std::size_t>,
+        //                         ENTITY, DynLib::IGame &) = 0;
+        virtual void dispText(int x, int y, std::string) = 0;
+};
 
-	class   Gfx {
-	public:
-		virtual ~Gfx() = default;
+    class   IGame {
+    public:
+        virtual ~IGame() = 0;
 
-		virtual void    init() = 0;
-		virtual void    destroy() = 0;
-		virtual void    display(std::pair<std::size_t, std::size_t>, 
-					DynLib::ENTITY, DynLib::Game &) = 0;
-		virtual void    dispText(std::pair<std::size_t, std::size_t>, std::string) = 0;
-		virtual bool    checkKey(int) = 0;
-	};
-
+        virtual void setLibGfx(DynLib::IGfx &) = 0;
+        virtual void init() = 0;
+        virtual void aff() = 0;
+        virtual int getLine() = 0;
+        virtual int getColumn() = 0;
+        virtual bool            checkEnd() = 0;
+        virtual std::string     getSprite() = 0;
+        virtual char            getChar() = 0;
+        virtual int             getColor() = 0;
+    };
 }
 
-#endif
+#endif /* !DYNLIB_HPP */

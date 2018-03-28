@@ -11,7 +11,7 @@
 # include "DynLib.hpp"
 
 namespace DynLib {
-	class   LibGame : public Game {
+	class   LibGame : public IGame {
 	public:
 		LibGame();
 		virtual ~LibGame() {};

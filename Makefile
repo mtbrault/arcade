@@ -27,13 +27,13 @@ core: $(OBJS)
 	$(CXX) $(OBJS) -o $(NAME)  $(CXXFLAGS)
 
 games:
-	make -C games/Pacman/
-	make -C games/Nibbler/
+	# make -C games/Pacman/
+	# make -C games/Nibbler/
 
 graphicals:
 	make -C ./lib/Ncurses
-	make -C ./lib/OpenGL
-	make -C ./lib/SFML
+	# make -C ./lib/OpenGL
+	# make -C ./lib/SFML
 
 clean:
 	$(RM) $(OBJS)
