@@ -5,8 +5,10 @@
 // Ncurses LibGFX class
 //
 
-#include "LibGFX.hpp"
 #include <iostream>
+#include <curses.h>
+#include <ncurses.h>
+#include "LibGFX.hpp"
 
 namespace DynLib {
 
@@ -26,7 +28,17 @@ namespace DynLib {
 		std::cout << "Loading - Ncurses Library" << std::endl;
 		initscr();
 	}
+
+	void	LibGFX::clear()
+	{
+		clear();
+	}
 	
+	void	LibGFX::refresh()
+	{
+		refresh();
+	}
+
 	void	LibGFX::destroy()
 	{
 		endwin();
@@ -38,23 +50,28 @@ namespace DynLib {
 		return (c);
 	}
 
+	ENTITY LibGFX::getOnWin(int x, int y)
+	{
+		(void)x;
+		(void)y;
+		return (DynLib::ENTITY::PLAYER);
+	}
+
 	int	LibGFX::getLastKey()
 	{
 		int c = getch();
 		return (c);
 	}
 
-	void    display(std::pair<std::size_t, std::size_t> coord,
-			DynLib::ENTITY, DynLib::IGame &game)
+	void    LibGFX::display(int x, int y, DynLib::ENTITY ent)
 	{
-		mvprintw(coord.second, coord.first, "%c", (char)game.getChar());
+		mvprintw(y, x, "%c", ent == NONE ? '0' : '1');
 		refresh();
 	}
 
-	void    dispText(std::pair<std::size_t, std::size_t> coord,
-			 std::string str)
+	void    LibGFX::dispText(int x, int y, std::string str)
 	{
-		mvprintw(coord.second, coord.first, str.c_str());
+		mvprintw(y, x, str.c_str());
 		refresh();
 	}
 }

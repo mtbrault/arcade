@@ -6,9 +6,6 @@
 //
 
 #include <string>
-// #include <SFML/Window.hpp>
-// #include <SFML/Graphics.hpp>
-// #include "WinSize.hpp"
 
 #ifndef DYNLIB_HPP
 # define DYNLIB_HPP

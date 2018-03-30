@@ -21,7 +21,7 @@ OBJS		= $(SRC:.cpp=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CXXFLAGS) -shared -o $(NAME) $(OBJS) -fpic 
+	$(CC) $(CXXFLAGS) -shared -o $(NAME) $(OBJS) -fpic -lncurses
 
 clean:
 	$(RM) $(OBJS)
