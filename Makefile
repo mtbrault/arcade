@@ -28,7 +28,7 @@ core: $(OBJS)
 
 games:
 	# make -C games/Pacman/
-	# make -C games/Nibbler/
+	make -C games/Nibbler/
 
 graphicals:
 	make -C ./lib/Ncurses

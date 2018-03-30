@@ -19,6 +19,7 @@ namespace DynLib {
 	LibGame::LibGame()
 		:_map(20), _lib(nullptr), _score(0), _snek(4), _stat(1)
 	{
+		std::cout << "Game \"Momo'sSnekAdventure\" loaded." << std::endl;
 		init();
 	}
 	
@@ -33,15 +34,15 @@ namespace DynLib {
 			   	std::fill(it->begin(), it->end(), DynLib::ENTITY::NONE);
 		}
 		_snek.reserve(4);
-		_snek[0] = std::make_pair(10, 9);
+		_snek[0] = std::make_pair(9, 10);
 		_snek[1] = std::make_pair(10, 10);
-		_snek[2] = std::make_pair(10, 11);
-		_snek[3] = std::make_pair(10, 12);
+		_snek[2] = std::make_pair(11, 10);
+		_snek[3] = std::make_pair(12, 10);
+		moveSnek();
 		showSnek();
 		_bonus = {rand() % 20, rand() % 20};
 		if (_bonus.first == 10)
 			_bonus.first += 1;
-		//
 	}
 
 	void	LibGame::checkDir()
@@ -56,7 +57,7 @@ namespace DynLib {
 
 	void	LibGame::moveSnek()
 	{
-		pos	next = {_snek[0].first + _dir[0].first, _snek[0].second + _dir[0].second};
+		pos	next = std::make_pair(_snek[0].first + _dir[0].first, _snek[0].second + _dir[0].second);
 		if (next.first <= 0 || next.first >= 20 || next.second <= 0 || next.second >= 20 ||
 			_map[next.second][next.first] == PLAYER) {
 			_stat = 0;
@@ -78,7 +79,6 @@ namespace DynLib {
 	
 	void    LibGame::aff()
 	{
-		std::pair<int, int>	cords;
 		checkDir();
 		moveSnek();
 		for (int x = 0 ; x < 20 ; x += 1) {
@@ -105,7 +105,7 @@ namespace DynLib {
 
 	bool	LibGame::checkEnd()
 	{
-		return (_stat);
+		return (!_stat);
 	}
 	
 	std::string	LibGame::getSprite()

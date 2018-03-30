@@ -16,8 +16,8 @@ int	main(int ac, char **av)
 	}
 	try {
 		HardCade    arc(av[1]);
-
 		arc.loadLibs();
+		arc.run();
 	} catch (const Error &error) {
 		std::cerr << error.what() << std::endl;
 		return (84);

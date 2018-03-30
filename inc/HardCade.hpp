@@ -21,7 +21,7 @@ public:
 	~HardCade();
 	void    run();
 	void	loadLibs();
-	void	putVector(std::vector<std::string> &myLib);
+	void	putVector(std::vector<std::string> &myLib, int type);
 
 private:
 
