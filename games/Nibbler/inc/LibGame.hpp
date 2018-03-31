@@ -8,9 +8,12 @@
 #ifndef LibGame_HPP_
 # define LibGame_HPP_
 
-# include "DynLib.hpp"
 #include <vector>
 #include <algorithm>
+#include <chrono>
+#include <ctime>
+# include "DynLib.hpp"
+
 
 typedef std::pair<int, int> pos;
 
@@ -34,14 +37,16 @@ namespace DynLib {
 		void	checkDir();
 		void	moveSnek();
 		void	showSnek();
+		void	placeBonus();
 		
-		std::vector<std::vector<DynLib::ENTITY>>	_map;
+		std::vector<std::vector<int>>	_map;
 		DynLib::IGfx					*_lib;
 		int								_score;
 		std::vector<pos>				_snek;
 		std::vector<pos>				_dir;
 		pos								_bonus;
 		int 							_stat;
+		std::chrono::system_clock::time_point _clock;
 	};
 }
 #endif

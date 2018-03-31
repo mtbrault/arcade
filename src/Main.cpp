@@ -10,6 +10,7 @@
 
 int	main(int ac, char **av)
 {
+	srand(time(nullptr));
 	if (ac != 2) {
 		std::cerr << "Invalid usage\nTry ./arcade [LIBPATH]\n";
 		return (84);

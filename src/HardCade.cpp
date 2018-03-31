@@ -5,6 +5,7 @@
 // Main program
 //
 
+#include <time.h>
 #include "HardError.hpp"
 #include "HardCade.hpp"
 
@@ -57,6 +58,8 @@ void    HardCade::listen()
 	
 }
 
+#include <unistd.h>
+
 void    HardCade::run()
 {
 	if (!games.size()) {
@@ -66,21 +69,29 @@ void    HardCade::run()
 		throw Error("Error: No graphic lib loaded.");
 		return ;
 	}
-	while (libs.front()->getLastKey() != 27) {
-		this->showMenu();	
-		while (status == HardCade::status_e::INGAME &&
-		       libs.front()->getLastKey() != 27 && !games.front()->checkEnd()) {
-			printf("sqdqsd\n");
+	//printf("OK\n");
+	libs.front()->init(0, 0);
+	//printf("Jere\n");
+/*	for (int i = 0; i < 100 ; i += 1)
+		libs.front()->dispText(0, 0, "Hello\n");
+	printf("LK: %d\n", libs.front()->getKey());*/
+	//while (libs.front()->getLastKey() != 27) {
+		this->showMenu();
+		//libs.front()->dispText(0, 0, "Hello\n");
+		//printf("qe\n");
+		while (status == HardCade::status_e::INGAME && !games.front()->checkEnd()) {
+		 	//libs.front()->dispText(0, 1, "Hello\n");
 			games.front()->aff();
-			this->listen();
+			//printf("here\n");
+			//this->listen();
+			usleep(250000);
 		}
-		this->listen();
-	}
-	/*libs.front()->init(0, 0);
+		//this->listen();
+	//}
+	libs.front()->destroy();
+	/*
 	this->showMenu();
 	while (1)
-		libs.front()->display(0, 0, DynLib::ENTITY::PLAYER);
-	libs.front()->destroy();*/
-	
+		libs.front()->display(0, 0, DynLib::ENTITY::PLAYER);*/
 	
 }

@@ -17,75 +17,112 @@ namespace DynLib {
 	}
 
 	LibGame::LibGame()
-		:_map(20), _lib(nullptr), _score(0), _snek(4), _stat(1)
+		:_map(20), _lib(nullptr), _score(0), _snek(4), 
+		_stat(1), _clock(std::chrono::system_clock::now())
 	{
 		std::cout << "Game \"Momo'sSnekAdventure\" loaded." << std::endl;
 		init();
 	}
-	
+
+	void	LibGame::placeBonus()
+	{
+		_bonus = std::make_pair((rand() % 18) + 1, (rand() % 18) + 1);
+		while (_map[_bonus.second][_bonus.first] == '1') {
+			_bonus.first = (rand() % 18) + 1;
+			_bonus.second = (rand() % 18) + 1;
+		}
+		_map[_bonus.second][_bonus.first] = '3';
+	}
+
 	void	LibGame::init()
 	{
 		_dir = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
 		_stat = 1;
-		for (auto it = _map.begin() ; it != _map.end() ; ++it) {
-				it->reserve(20);
-				(*it)[0] = DynLib::ENTITY::WALL;
-				(*it)[19] = DynLib::ENTITY::WALL;
-			   	std::fill(it->begin(), it->end(), DynLib::ENTITY::NONE);
+		_map.reserve(20);
+		for (auto y = 0 ; y < 20 ; y += 1) {
+			_map[y].reserve(20);
+			for (auto x = 0 ; x < 20 ; x += 1)
+				_map[y][x] = (x == 0 || x == 19 || y == 0 || y == 19 ? '2' : '0');
 		}
+		std::fill(_map.begin()->begin(), _map.begin()->end(), '2');
+		std::fill(_map.begin()->begin(), _map.begin()->end(), '2');
 		_snek.reserve(4);
 		_snek[0] = std::make_pair(9, 10);
 		_snek[1] = std::make_pair(10, 10);
 		_snek[2] = std::make_pair(11, 10);
 		_snek[3] = std::make_pair(12, 10);
-		moveSnek();
 		showSnek();
-		_bonus = {rand() % 20, rand() % 20};
-		if (_bonus.first == 10)
-			_bonus.first += 1;
+		placeBonus();
 	}
 
 	void	LibGame::checkDir()
 	{
 		int k = _lib->getLastKey();
-
 		if ((char)k == 'd')
 			std::rotate(_dir.begin(), _dir.begin() + 1, _dir.end());
 		else if ((char)k == 'q')
 			std::rotate(_dir.rbegin(), _dir.rbegin() + 1, _dir.rend());
+		else if (k == 27) {
+			_stat = 0;
+			return ;
+		}
 	}
 
 	void	LibGame::moveSnek()
 	{
-		pos	next = std::make_pair(_snek[0].first + _dir[0].first, _snek[0].second + _dir[0].second);
-		if (next.first <= 0 || next.first >= 20 || next.second <= 0 || next.second >= 20 ||
-			_map[next.second][next.first] == PLAYER) {
+		pos	next = std::make_pair(_snek.begin()->first + _dir.begin()->first, 
+								_snek.begin()->second + _dir.begin()->second);
+		(void)next;
+		if (next.first <= 0 || next.first >= 19 || next.second <= 0 || next.second >= 19 ||
+			_map[next.second][next.first] == '1') {
 			_stat = 0;
 			return ;
-		} else if (_map[next.second][next.first] != DynLib::ENTITY::ITEM) {
-			_map[_snek.end()->second][_snek.end()->first] = DynLib::ENTITY::NONE;
-			_snek.pop_back();
-
+		} else if (_map[next.second][next.first] != '3') {
+			//_map[_snek.end()->second][_snek.end()->first] = '0';
+			_snek.erase(_snek.end());
+		} else if (next.first == _bonus.first || next.second == _bonus.second)
+			placeBonus();
+		_snek.insert(_snek.begin(), next);
+		//_map[_snek.begin()->second][_snek.begin()->first] = '1';
+		/*for (auto it = _snek.begin() ; it != _snek.end() ; ++it) {
+			printf("(%d;%d),", it->first, it->second);
 		}
-		_snek.push_back(next);
-		std::rotate(_snek.rbegin(), _snek.rbegin() + 1, _snek.rend());
+		printf("\n");*/
 	}
 
 	void	LibGame::showSnek()
 	{
 		for (auto it = _snek.begin() ; it != _snek.end() ; ++it)
-			_map[it->second][it->first] = DynLib::ENTITY::PLAYER;
+			_map[it->second][it->first] = '1';
 	}
 	
 	void    LibGame::aff()
 	{
+		auto now = std::chrono::system_clock::now();
+		auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(now - _clock);
+		if (milliseconds.count() < 12 || !_stat)
+			return ;
 		checkDir();
 		moveSnek();
-		for (int x = 0 ; x < 20 ; x += 1) {
-			for (int y = 0 ; y < 20 ; x += 1) {
-				_lib->display(x, y, _map[y][x]);
+		for (auto x = 1 ; x < 19 ; x += 1) {
+			for (auto y = 1 ; y < 19 ; y += 1)
+					_map[y][x] = '0';
+		}
+		showSnek();
+		_map[_bonus.second][_bonus.first] = '3';
+		for (auto x = 0 ; x < 20 ; x += 1) {
+			for (auto y = 0 ; y < 20 ; y += 1) {
+				if (_map[y][x] == '0')
+					_lib->display(x, y, DynLib::ENTITY::NONE);
+				else if (_map[y][x] == '1')
+					_lib->display(x, y, DynLib::ENTITY::PLAYER);
+				else if (_map[y][x] == '2')
+					_lib->display(x, y, DynLib::ENTITY::WALL);
+				else if (_map[y][x] == '3')
+					_lib->display(x, y, DynLib::ENTITY::ITEM);
 			}
 		}
+		_clock = std::chrono::system_clock::now();
 	}
 
 	void	LibGame::setLibGfx(DynLib::IGfx &lib)
@@ -105,7 +142,7 @@ namespace DynLib {
 
 	bool	LibGame::checkEnd()
 	{
-		return (!_stat);
+		return (_stat == 0 ? 1 : 0);
 	}
 	
 	std::string	LibGame::getSprite()
