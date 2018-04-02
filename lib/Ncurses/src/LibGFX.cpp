@@ -96,7 +96,6 @@ namespace DynLib {
 
 	int	LibGFX::getLastKey()
 	{
-		//_lk = getch();
 		return (_lk);
 	}
 
@@ -121,7 +120,5 @@ namespace DynLib {
 		(void)y;
 		(void)str;
 		mvprintw(y, x, "%s", str.c_str());
-		//printf("abcdef");
-		//refresh();
 	}
 }
