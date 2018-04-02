@@ -31,7 +31,7 @@ namespace DynLib {
 
 	private:
 
-		void		nonCanon(const char);
+		//void		nonCanon(const char);
 
 		int  		_lk;
 

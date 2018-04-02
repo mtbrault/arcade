@@ -49,7 +49,7 @@ void	HardCade::putVector(std::map<std::string, std::string> &myLib, int type)
 
 void	HardCade::modifName(const char c)
 {
-	if (name.length() < 12)
+	if (name.length() < 24)
 		name += c;
 }
 

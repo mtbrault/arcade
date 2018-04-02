@@ -26,14 +26,12 @@ Loader::~Loader()
 
 void	Loader::fillLibrary()
 {
-    setLibrary(_gfxLibs, "./lib");
+	std::string tmp = _fname;
+	tmp = tmp.substr(0, -3);
+	setLibrary(_gfxLibs, "./lib");
 	setLibrary(_gamesLibs, "./games");
-	//auto itr = std::find(_gfxLibs.begin(), _gfxLibs.end(), _fname);
-	/*if (itr != _gfxLibs.end()) {
-		//_gfxLibs.erase(itr);
-		std::string tmp = _fname;
-		_gfxLibs.insert(_gfxLibs.begin(), std::make_pair<tmp.susbtr(0, -3), _fname>);
-	}*/
+/*	if (_gamesLibs.find(tmp) == _gamesLibs.end())
+		_gamesLibs[tmp]= _fname;*/
 }
 
 void	Loader::setLibrary(std::map<std::string, std::string> &myLib, std::string path)
