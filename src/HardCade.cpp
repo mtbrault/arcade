@@ -43,7 +43,7 @@ void	HardCade::putVector(std::map<std::string, std::string> &myLib, int type)
 			games.push_back(std::pair<std::string, DynLib::IGame*>(it->first, (DynLib::IGame*)ptr));
 		else
 			throw Error("Error while loading dynamicaly a library\n");
-	}this->listen();
+	}
 	
 }
 
@@ -53,12 +53,34 @@ void	HardCade::modifName(const char c)
 		name += c;
 }
 
+int 	HardCade::showLibs()
+{
+	libs.front().second->dispText(0, 3, "Games:\t\t\t\tGraphics:");
+	auto itg = games.begin();
+	auto itl = libs.begin();
+	int nb = 0;
+	while (itg != games.end() || itl != libs.end()) {
+		std::string tmp = "";
+		if (itg != games.end()) {
+			tmp += itg->first + "\t\t";
+			++itg;
+		} 
+		if (itl != libs.end()) {
+			tmp += itl->first;
+			++itl;
+		}
+		libs.front().second->dispText(0, nb + 4, tmp);
+		nb += 1;
+	}
+	return (nb + 5);
+}
+
 void    HardCade::showMenu()
 {
 	libs.front().second->dispText(0, 0, "HARDCADE");
 	libs.front().second->dispText(0, 1, std::string("name: ") + name);
-	libs.front().second->dispText(0, 2, "Games:\t\t\tGraphics:");
-	libs.front().second->dispText(0, 4, "Press Enter to start, escape to quit");
+	int i = showLibs();
+	libs.front().second->dispText(0, i + 1, "Press Enter to start, Escape to quit");
 	lk = libs.front().second->getKey();
 	if (lk == 13) {
 		//for (i ; libs. ||  ; i += 1)

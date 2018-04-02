@@ -34,6 +34,7 @@ private:
 	void	modifName(const char c);
 	void    listen();
 	void    showMenu();
+	int		showLibs();
 
 	std::vector<std::pair<std::string, DynLib::IGfx *>>		libs;
 	std::vector<std::pair<std::string, DynLib::IGame *>>		games;
