@@ -25,7 +25,7 @@ namespace DynLib {
 
 		virtual void setLibGfx(DynLib::IGfx &);
 		virtual void init();
-	        virtual void aff();
+	    virtual void aff();
 		virtual int getLine();
 		virtual int getColumn();
 		virtual bool checkEnd();
@@ -46,6 +46,7 @@ namespace DynLib {
 		std::vector<pos>				_dir;
 		pos								_bonus;
 		int 							_stat;
+		bool							_init;
 		std::chrono::system_clock::time_point _clock;
 	};
 }

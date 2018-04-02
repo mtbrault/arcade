@@ -16,30 +16,33 @@ Loader::Loader(const std::string &fname)
 
 Loader::~Loader() 
 {
-	if (_handle)
+	if (_handle) {
 		if ((dlclose(_handle)) != 0) {
 			std::string err("Library cannot be closed\n");
 			std::cerr << err;
 		}
+	}
 }
 
 void	Loader::fillLibrary()
 {
-        setLibrary(_gfxLibs, "./lib");
+    setLibrary(_gfxLibs, "./lib");
 	setLibrary(_gamesLibs, "./games");
-	auto itr = std::find(_gfxLibs.begin(), _gfxLibs.end(), _fname);
-	if (itr != _gfxLibs.end()) _gfxLibs.erase(itr);
-	_gfxLibs.insert(_gfxLibs.begin(), _fname);
+	//auto itr = std::find(_gfxLibs.begin(), _gfxLibs.end(), _fname);
+	/*if (itr != _gfxLibs.end()) {
+		//_gfxLibs.erase(itr);
+		std::string tmp = _fname;
+		_gfxLibs.insert(_gfxLibs.begin(), std::make_pair<tmp.susbtr(0, -3), _fname>);
+	}*/
 }
 
-void	Loader::setLibrary(std::vector<std::string> &myLib, std::string path)
+void	Loader::setLibrary(std::map<std::string, std::string> &myLib, std::string path)
 {
 	if (auto dir = opendir(path.c_str())) { 
 		while (auto f = readdir(dir)) {
 			_libname = f->d_name;
 			if (_libname.at(0) != '.' && _libname.find(".so") != std::string::npos) {
-				if (path == "./lib" || path == "./games")
-					myLib.push_back(path + "/" + _libname);
+				myLib[_libname.substr(0, -3)] = path + "/" + _libname;
 			}
 		}
 		closedir(dir);
@@ -59,12 +62,12 @@ void	*Loader::loadDynamic(std::string lname)
 	return (ptr());
 }
 
-std::vector<std::string>	&Loader::getGfx()
+std::map<std::string, std::string>	&Loader::getGfx()
 {
 	return _gfxLibs;
 }
 
-std::vector<std::string>	&Loader::getGames()
+std::map<std::string, std::string>	&Loader::getGames()
 {
 	return _gamesLibs;
 }

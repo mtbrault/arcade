@@ -12,6 +12,7 @@
 #include <memory>
 #include <vector>
 #include <utility>
+#include <map>
 #include "DynLib.hpp"
 #include "Loader.hpp"
 
@@ -21,7 +22,7 @@ public:
 	~HardCade();
 	void    run();
 	void	loadLibs();
-	void	putVector(std::vector<std::string> &myLib, int type);
+	void	putVector(std::map<std::string, std::string> &myLib, int type);
 
 private:
 
@@ -29,13 +30,16 @@ private:
 		MENU,
 		INGAME
 	};
-	
+
+	void	modifName(const char c);
 	void    listen();
 	void    showMenu();
 
-	std::vector<DynLib::IGfx *>	libs;
-	std::vector<DynLib::IGame *>	games;
-	status_e			status;
+	std::vector<std::pair<std::string, DynLib::IGfx *>>		libs;
+	std::vector<std::pair<std::string, DynLib::IGame *>>		games;
+	status_e						status;
+	int								lk;
+	std::string						name;
 };
 
 #endif

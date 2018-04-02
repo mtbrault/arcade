@@ -11,6 +11,7 @@
 #include "DynLib.hpp"
 
 namespace DynLib {
+
 	class   LibGFX : public IGfx {
 	public:
 		LibGFX();
@@ -33,7 +34,6 @@ namespace DynLib {
 		void		nonCanon(const char);
 
 		int  		_lk;
-		struct termios _oldt;
 
        };
 }

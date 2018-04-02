@@ -18,7 +18,7 @@ namespace DynLib {
 
 	LibGame::LibGame()
 		:_map(20), _lib(nullptr), _score(0), _snek(4), 
-		_stat(1), _clock(std::chrono::system_clock::now())
+		_stat(1), _init(0), _clock(std::chrono::system_clock::now())
 	{
 		std::cout << "Game \"Momo'sSnekAdventure\" loaded." << std::endl;
 		init();
@@ -36,6 +36,11 @@ namespace DynLib {
 
 	void	LibGame::init()
 	{
+		if (_init == 1) {
+			_stat = 1;
+			return ;
+		}
+		_init = 1;
 		_dir = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
 		_stat = 1;
 		_map.reserve(20);
@@ -46,11 +51,12 @@ namespace DynLib {
 		}
 		std::fill(_map.begin()->begin(), _map.begin()->end(), '2');
 		std::fill(_map.begin()->begin(), _map.begin()->end(), '2');
-		_snek.reserve(4);
-		_snek[0] = std::make_pair(9, 10);
-		_snek[1] = std::make_pair(10, 10);
-		_snek[2] = std::make_pair(11, 10);
-		_snek[3] = std::make_pair(12, 10);
+		_snek = {
+			std::make_pair(9, 10),
+			std::make_pair(10, 10),
+			std::make_pair(11, 10),
+			std::make_pair(12, 10)
+		};
 		showSnek();
 		placeBonus();
 	}
@@ -76,6 +82,8 @@ namespace DynLib {
 		if (next.first <= 0 || next.first >= 19 || next.second <= 0 || next.second >= 19 ||
 			_map[next.second][next.first] == '1') {
 			_stat = 0;
+			_init = 0;
+			//_snek.clear();
 			return ;
 		} else if (_map[next.second][next.first] != '3') {
 			//_map[_snek.end()->second][_snek.end()->first] = '0';
@@ -103,6 +111,8 @@ namespace DynLib {
 		if (milliseconds.count() < 12 || !_stat)
 			return ;
 		checkDir();
+		if (_stat == 0)
+			return ;
 		moveSnek();
 		for (auto x = 1 ; x < 19 ; x += 1) {
 			for (auto y = 1 ; y < 19 ; y += 1)

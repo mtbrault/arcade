@@ -6,11 +6,12 @@
 //
 
 #include <time.h>
+#include <unistd.h>
 #include "HardError.hpp"
 #include "HardCade.hpp"
 
 HardCade::HardCade(const std::string &first)
-	: Loader(first), status(HardCade::status_e::MENU)
+	: Loader(first), status(HardCade::status_e::MENU), lk(0), name("")
 {
 }
 
@@ -20,8 +21,8 @@ HardCade::~HardCade()
 
 void    HardCade::loadLibs()
 {
-	std::vector<std::string>	gfxLib;
-	std::vector<std::string>	gameLib;
+	std::map<std::string, std::string>	gfxLib;
+	std::map<std::string, std::string>	gameLib;
 
 	Loader::fillLibrary();
 	gfxLib = Loader::getGfx();
@@ -30,35 +31,55 @@ void    HardCade::loadLibs()
 	putVector(gameLib, 2);
 }
 
-void	HardCade::putVector(std::vector<std::string> &myLib, int type)
+void	HardCade::putVector(std::map<std::string, std::string> &myLib, int type)
 {
 	void	*ptr;
 
-	for (auto it = myLib.begin() ; it != myLib.end() ; it++) {
-		ptr = Loader::loadDynamic(*it);
+	for (auto it = myLib.begin() ; it != myLib.end() ; ++it) {
+		ptr = Loader::loadDynamic(it->second);
 		if (ptr != nullptr && type == 1)
-			libs.push_back((DynLib::IGfx*)ptr);
+			libs.push_back(std::pair<std::string, DynLib::IGfx*>(it->first, (DynLib::IGfx*)ptr));
 		else if (type == 2)
-			games.push_back((DynLib::IGame*)ptr);
+			games.push_back(std::pair<std::string, DynLib::IGame*>(it->first, (DynLib::IGame*)ptr));
 		else
 			throw Error("Error while loading dynamicaly a library\n");
-	}
+	}this->listen();
 	
+}
+
+void	HardCade::modifName(const char c)
+{
+	if (name.length() < 12)
+		name += c;
 }
 
 void    HardCade::showMenu()
 {
-	games.front()->init();
-	games.front()->setLibGfx(*(libs.front()));
-	status = HardCade::status_e::INGAME;
+	libs.front().second->dispText(0, 0, "HARDCADE");
+	libs.front().second->dispText(0, 1, std::string("name: ") + name);
+	libs.front().second->dispText(0, 2, "Games:\t\t\tGraphics:");
+	libs.front().second->dispText(0, 4, "Press Enter to start, escape to quit");
+	lk = libs.front().second->getKey();
+	if (lk == 13) {
+		//for (i ; libs. ||  ; i += 1)
+		games.front().second->init();
+		games.front().second->setLibGfx(*(libs.front().second));
+		libs.front().second->clear();
+		status = HardCade::status_e::INGAME;
+	} else if ((lk >= 'a' && lk <= 'z') || (lk >= 'A' && lk <= 'Z')) {
+		modifName(lk);
+	} else if (lk == 263 && name.length() > 0)
+		name.pop_back();
 }
 
-void    HardCade::listen()
+void	HardCade::listen()
 {
-	
+	int c = libs.front().second->getKey();
+	(void)c;
+	/*Change libs, Games, Quit, etc..*/
+	/* GetKey first checked here then getLastKey ingame */
+	/* Only one getch */
 }
-
-#include <unistd.h>
 
 void    HardCade::run()
 {
@@ -69,26 +90,17 @@ void    HardCade::run()
 		throw Error("Error: No graphic lib loaded.");
 		return ;
 	}
-	//printf("OK\n");
-	libs.front()->init(0, 0);
-	//printf("Jere\n");
-/*	for (int i = 0; i < 100 ; i += 1)
-		libs.front()->dispText(0, 0, "Hello\n");
-	printf("LK: %d\n", libs.front()->getKey());*/
-	//while (libs.front()->getLastKey() != 27) {
+	libs.front().second->init(0, 0);
+	while (lk != 27) {
 		this->showMenu();
-		//libs.front()->dispText(0, 0, "Hello\n");
-		//printf("qe\n");
-		while (status == HardCade::status_e::INGAME && !games.front()->checkEnd()) {
-		 	//libs.front()->dispText(0, 1, "Hello\n");
-			games.front()->aff();
-			//printf("here\n");
-			//this->listen();
+		while (status == HardCade::status_e::INGAME && !games.front().second->checkEnd()) {
+			this->listen();
+			games.front().second->aff();
 			usleep(250000);
 		}
-		//this->listen();
-	//}
-	libs.front()->destroy();
+		libs.front().second->clear();
+	}
+	libs.front().second->destroy();
 	/*
 	this->showMenu();
 	while (1)

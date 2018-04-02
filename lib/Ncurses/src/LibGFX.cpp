@@ -26,8 +26,9 @@ namespace DynLib {
 		std::cout << "Graphic lib \"Ncurses\" loaded." << std::endl;
 	}
 	
-	void            LibGFX::nonCanon(const char reset)                                                               
-	{                                                                     
+	void            LibGFX::nonCanon(const char reset)
+	{
+		static struct termios _oldt;
         struct termios newt;
         char     *term = getenv("TERM");
         int ret;
@@ -56,7 +57,6 @@ namespace DynLib {
            	keypad(stdscr, true) == ERR ||
         	nonl() == ERR ||
             noecho() == ERR ||
-            cbreak() == ERR ||
             curs_set(0) == ERR)
                 throw std::exception();                                                          
         nonCanon(0);
@@ -64,7 +64,7 @@ namespace DynLib {
 
 	void	LibGFX::clear()
 	{
-		clear();
+		erase();
 	}
 	
 	void	LibGFX::refresh()
@@ -75,16 +75,16 @@ namespace DynLib {
 	void	LibGFX::destroy()
 	{
 		nonCanon(1);
+		endwin();	
         curs_set(1);
         echo();
         keypad(stdscr, false);
-		endwin();
 	}
 	
 	int	LibGFX::getKey()
 	{
-		int c = getch();
-		return (c);
+		_lk = getch();
+		return (_lk);
 	}
 
 	ENTITY LibGFX::getOnWin(int x, int y)
@@ -96,10 +96,7 @@ namespace DynLib {
 
 	int	LibGFX::getLastKey()
 	{
-		int c = getch();
-		//printf("Get -> %d\n", c);
-		if (c != _lk)
-			_lk = c;
+		//_lk = getch();
 		return (_lk);
 	}
 
