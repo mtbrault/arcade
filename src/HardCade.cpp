@@ -107,6 +107,7 @@ void	HardCade::listen()
 		libs.begin()->second->init(0, 0);
 		games.front().second->setLibGfx(*(libs.front().second));
 	} else if (c == 'c' || c == 'v') {
+		games.front().second->init();
 		if (c == 'c')
 			std::rotate(games.begin(), games.begin() + 1, games.end());
 		else
