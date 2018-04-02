@@ -98,14 +98,21 @@ void    HardCade::showMenu()
 void	HardCade::listen()
 {
 	int c = libs.front().second->getKey();
-	if (c == 'w')
-		std::rotate(libs.begin(), libs.begin() + 1, libs.end());
-	else if (c == 'x')
-		std::rotate(libs.rbegin(), libs.rbegin() + 1, libs.rend());
-	else if (c == 'c')
-		std::rotate(games.begin(), games.begin() + 1, games.end());
-	else if (c == 'v')
-		std::rotate(games.rbegin(), games.rbegin() + 1, games.rend());
+	if (c == 'w' || c == 'x') {
+		libs.begin()->second->destroy();
+		if (c == 'w')
+			std::rotate(libs.begin(), libs.begin() + 1, libs.end());
+		else
+			std::rotate(libs.rbegin(), libs.rbegin() + 1, libs.rend());
+		libs.begin()->second->init();
+		games.front().second->setLibGfx(*(libs.front().second));
+	} else if (c == 'c' || c == 'v') {
+		if (c == 'c')
+			std::rotate(games.begin(), games.begin() + 1, games.end());
+		else
+			std::rotate(games.rbegin(), games.rbegin() + 1, games.rend());
+		games.front().second->setLibGfx(*(libs.front().second));
+	}
 }
 
 void    HardCade::run()
