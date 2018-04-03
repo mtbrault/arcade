@@ -13,7 +13,7 @@ NAME		= ../lib_arcade_sfml.so
 
 SRC		= src/LibGFX.cpp
 
-CXXFLAGS	+= -I ./inc -I ../../inc
+CXXFLAGS	+= -I ./inc -I ../../inc -lsfml-graphics -lsfml-system -lsfml-window
 CXXFLAGS	+= -W -Wall -Wextra -Werror -fpic
 
 OBJS		= $(SRC:.cpp=.o)
