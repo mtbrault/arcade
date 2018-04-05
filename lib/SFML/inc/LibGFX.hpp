@@ -12,6 +12,8 @@
 #include <SFML/Graphics.hpp>
 #include "DynLib.hpp"
 
+# define SIZE	60
+
 namespace DynLib {
 	
         class   LibGFX : public IGfx {
@@ -31,8 +33,9 @@ namespace DynLib {
 
 	private:
 		int					_lk;
-		sf::RenderWindow			*_window;
+		sf::RenderWindow			_window;
 		std::map<int, sf::Keyboard::Key>	_keys;
+		std::map<ENTITY, sf::Sprite>		_sprite;
        };
 }
 #endif

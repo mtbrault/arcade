@@ -6,6 +6,7 @@
 //
 
 #include <iostream>
+#include <exception>
 #include "LibGFX.hpp"
 
 namespace DynLib {
@@ -54,53 +55,60 @@ namespace DynLib {
 
 	LibGFX::~LibGFX()
 	{
-		delete _window;
+	}
+
+	void	init_sprite(sf::Sprite &sprite, sf::Color color, std::string path)
+	{
+		sf::Texture	texture;
+
+		if (!texture.loadFromFile(path))
+		{
+			throw std::exception();
+		}
+		sprite.setColor(color);
+		sprite.setTexture(texture);
 	}
 	
 	void    LibGFX::init(int a, int b)
 	{
 		(void)a;
 		(void)b;
-		_window = new sf::RenderWindow(sf::VideoMode(1200, 1080), (std::string)"Arcade");
-		_window->setFramerateLimit(60);
+		_window.create(sf::VideoMode(/*a * SIZE, b * SIZE*/1600, 900), "Arcade");
+		_window.setFramerateLimit(60);
+	        init_sprite(_sprite[PLAYER], sf::Color::Red, "texture/hokot6a.png");
+		init_sprite(_sprite[ENEMY], sf::Color::Cyan, "texture/hokot6a.png");
+		init_sprite(_sprite[OBSTACLE], sf::Color::White, "texture/hokot6a.png");
+		init_sprite(_sprite[ITEM], sf::Color::Green, "texture/hokot6a.png");
+		init_sprite(_sprite[WALL], sf::Color::Blue, "texture/hokot6a.png");
 	}
 
 	void	LibGFX::destroy()
 	{
-		_window->close();
+		_window.close();
 	}
 
 	void	LibGFX::display(int x, int y, ENTITY entity)
 	{
-		sf::Texture	texture;
-		sf::Sprite	sprite;
-
-		(void)entity;
-		if (!texture.loadFromFile("../texture/hokot6a.png"))
-			return ;
-		texture.setSmooth(true);
-		sprite.setTexture(texture);
-		sprite.setTextureRect(sf::IntRect(10, 10, 10, 10));
-		sprite.setPosition(sf::Vector2f(x, y));
-		_window->draw(sprite);
-		_window->display();
+		_sprite[entity].setPosition(x * SIZE, y * SIZE);
+		_window.draw(_sprite[entity]);
+		_window.display();
 	}
 	
 	void	LibGFX::refresh()
 	{
-		//_window->display();
+		//_window.display();
 	}
 
 	void	LibGFX::clear()
 	{
-		_window->clear();
+		_window.clear(sf::Color::Black);
 	}
 
 	int	LibGFX::getKey()
 	{
 		sf::Event	event;
 		
-		if (_window->pollEvent(event)) {
+		if (_window.pollEvent(event)) {
 			if (event.type == sf::Event::KeyPressed) {
 				for (auto it = _keys.begin(); it != _keys.end(); it++) {
 					if (event.key.code == it->second) {
@@ -124,7 +132,7 @@ namespace DynLib {
 	{
 		(void)x;
 		(void)y;
-		return ENTITY::ENEMY;
+		return ENTITY::NONE;
 	}
 	
 	void	LibGFX::dispText(int x, int y, std::string str)
@@ -132,13 +140,13 @@ namespace DynLib {
 		sf::Font	font;
 		sf::Text	text;
 
-		if (!font.loadFromFile("../font/arial.ttf"))
+		if (!font.loadFromFile("font/arial.ttf"))
 			return ;
 		text.setFont(font);
 		text.setString(str);
 		text.setCharacterSize(10);
 		text.setStyle(sf::Text::Bold);
 		text.setPosition(sf::Vector2f(x, y));
-		_window->draw(text);
+		_window.draw(text);
 	}
 }
