@@ -74,12 +74,13 @@ namespace DynLib {
 		(void)a;
 		(void)b;
 		_window.create(sf::VideoMode(/*a * SIZE, b * SIZE*/1600, 900), "Arcade");
-		_window.setFramerateLimit(60);
+		//	_window.setFramerateLimit(60);
 	        init_sprite(_sprite[PLAYER], sf::Color::Red, "texture/hokot6a.png");
 		init_sprite(_sprite[ENEMY], sf::Color::Cyan, "texture/hokot6a.png");
 		init_sprite(_sprite[OBSTACLE], sf::Color::White, "texture/hokot6a.png");
 		init_sprite(_sprite[ITEM], sf::Color::Green, "texture/hokot6a.png");
 		init_sprite(_sprite[WALL], sf::Color::Blue, "texture/hokot6a.png");
+		init_sprite(_sprite[NONE], sf::Color::Black, "texture/hokot6a.png");
 	}
 
 	void	LibGFX::destroy()

@@ -23,7 +23,7 @@ namespace   DynLib {
 
     class   IGfx {
     public:
-        virtual ~IGfx() = 0;
+        virtual ~IGfx() = default;
 
         virtual void init(int, int) = 0;
         virtual void destroy() = 0;
@@ -40,7 +40,7 @@ namespace   DynLib {
 
     class   IGame {
     public:
-        virtual ~IGame() = 0;
+        virtual ~IGame() = default;
 
         virtual void setLibGfx(DynLib::IGfx &) = 0;
         virtual void init() = 0;

@@ -27,27 +27,36 @@ Loader::~Loader()
 void	Loader::fillLibrary()
 {
 	std::string tmp = _fname;
-	tmp = tmp.substr(0, -3);
-	setLibrary(_gfxLibs, "./lib");
-	setLibrary(_gamesLibs, "./games");
-/*	if (_gamesLibs.find(tmp) == _gamesLibs.end())
-		_gamesLibs[tmp]= _fname;*/
+	tmp = tmp.substr(tmp.find_last_of("/") + 1, -3);
+	tmp = tmp.erase(tmp.length() - 3);
+	setLibrary(_gfxLibs, std::string("./lib"));
+	setLibrary(_gamesLibs, std::string("./games"));
+	auto it = std::find_if(_gfxLibs.begin(), _gfxLibs.end(),
+		[tmp](const std::pair<std::string, std::string> &elem){ return elem.first == tmp; });
+	if (it == _gfxLibs.end()) {
+		_gfxLibs.push_back(std::pair<std::string, std::string>(tmp, _fname));
+		std::rotate(_gfxLibs.begin(), _gfxLibs.begin() + 1, _gfxLibs.end());
+	} else
+		std::rotate(_gfxLibs.begin(), it, _gfxLibs.end());
+	std::rotate(_gamesLibs.begin(), _gamesLibs.begin() + 1, _gamesLibs.end());
 }
 
-void	Loader::setLibrary(std::map<std::string, std::string> &myLib, std::string path)
+void	Loader::setLibrary(std::vector<std::pair<std::string, std::string>> &myLib, std::string path)
 {
 	if (auto dir = opendir(path.c_str())) { 
 		while (auto f = readdir(dir)) {
 			_libname = f->d_name;
 			if (_libname.at(0) != '.' && _libname.find(".so") != std::string::npos) {
-				myLib[_libname.substr(0, -3)] = path + "/" + _libname;
+				std::string tmp = _libname.substr(_libname.find_last_of("/") + 1, -3);
+				tmp = tmp.erase(tmp.length() - 3);
+				myLib.push_back(std::pair<std::string, std::string>(tmp, path + "/" + _libname));
 			}
 		}
 		closedir(dir);
-	}	
+	}
 }
 
-void	*Loader::loadDynamic(std::string lname)
+void	*Loader::loadDynamic(std::string &lname)
 {
 	void	*(*ptr)(void);
 
@@ -60,12 +69,12 @@ void	*Loader::loadDynamic(std::string lname)
 	return (ptr());
 }
 
-std::map<std::string, std::string>	&Loader::getGfx()
+std::vector<std::pair<std::string, std::string>>	&Loader::getGfx()
 {
 	return _gfxLibs;
 }
 
-std::map<std::string, std::string>	&Loader::getGames()
+std::vector<std::pair<std::string, std::string>>	&Loader::getGames()
 {
 	return _gamesLibs;
 }

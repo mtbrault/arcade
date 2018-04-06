@@ -20,19 +20,16 @@ HardCade::~HardCade()
 {
 }
 
-void    HardCade::loadLibs()
+void	HardCade::loadLibs()
 {
-	std::map<std::string, std::string>	gfxLib;
-	std::map<std::string, std::string>	gameLib;
-
 	Loader::fillLibrary();
-	gfxLib = Loader::getGfx();
-	gameLib = Loader::getGames();
+	std::vector<std::pair<std::string, std::string>> &gfxLib = Loader::getGfx();
+	std::vector<std::pair<std::string, std::string>> &gameLib = Loader::getGames();
 	putVector(gfxLib, 1);
 	putVector(gameLib, 2);
 }
 
-void	HardCade::putVector(std::map<std::string, std::string> &myLib, int type)
+void	HardCade::putVector(std::vector<std::pair<std::string, std::string>> &myLib, int type)
 {
 	void	*ptr;
 
@@ -54,7 +51,7 @@ void	HardCade::modifName(const char c)
 		name += c;
 }
 
-int 	HardCade::showLibs()
+int		HardCade::showLibs()
 {
 	libs.front().second->dispText(0, 3, "Games:\t\t\t\tGraphics:");
 	auto itg = games.begin();
@@ -65,7 +62,9 @@ int 	HardCade::showLibs()
 		if (itg != games.end()) {
 			tmp += itg->first + "\t\t";
 			++itg;
-		} 
+		} else {
+			tmp += "\t\t\t\t";
+		}
 		if (itl != libs.end()) {
 			tmp += itl->first;
 			++itl;
@@ -84,7 +83,6 @@ void    HardCade::showMenu()
 	libs.front().second->dispText(0, i + 1, "Press Enter to start, Escape to quit");
 	lk = libs.front().second->getKey();
 	if (lk == 13) {
-		//for (i ; libs. ||  ; i += 1)
 		games.front().second->init();
 		games.front().second->setLibGfx(*(libs.front().second));
 		libs.front().second->clear();
@@ -131,14 +129,9 @@ void    HardCade::run()
 		while (status == HardCade::status_e::INGAME && !games.front().second->checkEnd()) {
 			this->listen();
 			games.front().second->aff();
-			usleep(250000);
+			usleep(150000);
 		}
 		libs.front().second->clear();
 	}
-	libs.front().second->destroy();
-	/*
-	this->showMenu();
-	while (1)
-		libs.front()->display(0, 0, DynLib::ENTITY::PLAYER);*/
-	
+	libs.front().second->destroy();	
 }

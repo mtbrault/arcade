@@ -22,7 +22,7 @@ public:
 	~HardCade();
 	void    run();
 	void	loadLibs();
-	void	putVector(std::map<std::string, std::string> &myLib, int type);
+	void	putVector(std::vector<std::pair<std::string, std::string>> &myLib, int type);
 
 private:
 
