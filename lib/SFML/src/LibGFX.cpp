@@ -107,25 +107,24 @@ namespace DynLib {
 
 	int	LibGFX::getKey()
 	{
-		sf::Event	event;
-		
-		if (_window.pollEvent(event)) {
-			if (event.type == sf::Event::KeyPressed) {
-				for (auto it = _keys.begin(); it != _keys.end(); it++) {
-					if (event.key.code == it->second) {
-						_lk = it->first;
-						return it->first;
-					}
-				}
+		for (auto it = _keys.begin(); it != _keys.end(); it++) {
+			if (sf::Keyboard::isKeyPressed(it->second)) {
+				_lk = it->first;
+				return it->first;
 			}
-			else if (event.type == sf::Event::Closed)
-				destroy();
 		}
+		_lk = -1;
 		return -1;
 	}
 	
 	int	LibGFX::getLastKey()
 	{
+		for (auto it = _keys.begin(); it != _keys.end(); it++) {
+			if (sf::Keyboard::isKeyPressed(it->second)) {
+				_lk = it->first;
+				return it->first;
+			}
+		}
 		return _lk;
 	}
 

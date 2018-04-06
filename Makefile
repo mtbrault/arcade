@@ -5,7 +5,7 @@
 ## Core program Makefile
 ##
 
-CXX	=	g++
+CXX	=	g++ -g3
 
 RM	=	rm -f
 
@@ -27,7 +27,7 @@ core: $(OBJS)
 	$(CXX) $(OBJS) -o $(NAME)  $(CXXFLAGS)
 
 games:
-	# make -C games/Pacman/
+	# make -C games/Centipede/
 	make -C games/Nibbler/
 
 graphicals:
@@ -37,7 +37,7 @@ graphicals:
 
 clean:
 	$(RM) $(OBJS)
-	make clean -C ./games/Pacman
+	make clean -C ./games/Centipede
 	make clean -C ./games/Nibbler
 	make clean -C ./lib/Ncurses
 	make clean -C ./lib/OpenGL
@@ -45,7 +45,7 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME)
-	make fclean -C ./games/Pacman
+	make fclean -C ./games/Centipede
 	make fclean -C ./games/Nibbler
 	make fclean -C ./lib/Ncurses
 	make fclean -C ./lib/OpenGL

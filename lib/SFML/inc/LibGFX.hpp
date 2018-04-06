@@ -10,6 +10,7 @@
 
 #include <map>
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 #include "DynLib.hpp"
 
 # define SIZE	60

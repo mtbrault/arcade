@@ -25,7 +25,7 @@ namespace DynLib {
 
 		virtual void setLibGfx(DynLib::IGfx &);
 		virtual void init();
-	    virtual void aff();
+		virtual void aff();
 		virtual int getLine();
 		virtual int getColumn();
 		virtual bool checkEnd();
