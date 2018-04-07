@@ -46,6 +46,9 @@ namespace DynLib {
 		void		checkDir();
 		int		checkObstacle(int, int);
 		ENTITY		getEntity(int);
+		void		shot();
+		void		moveShot();
+		void		touchObstacle(int ,int);
 		int				_stat;
 		DynLib::IGfx			*_lib;
 		std::map<ENTITY, int>		_entity;
@@ -56,6 +59,8 @@ namespace DynLib {
 		std::vector<std::vector<int>>	_map;
 		std::vector<obstacle_t>		_obstacle;
 		std::chrono::system_clock::time_point	_clock;
+		int				_isShot;
+		std::pair<int, int>		_shotCoord;
 	};
 }
 #endif

@@ -128,6 +128,7 @@ void    HardCade::run()
 		this->showMenu();
 		while (status == HardCade::status_e::INGAME && !games.front().second->checkEnd()) {
 			this->listen();
+			libs.front().second->clear();
 			games.front().second->aff();
 			usleep(150000);
 		}
