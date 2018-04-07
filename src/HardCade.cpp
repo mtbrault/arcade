@@ -91,6 +91,7 @@ void    HardCade::showMenu()
 		modifName(lk);
 	} else if (lk == 263 && name.length() > 0)
 		name.pop_back();
+	libs.front().second->refresh();
 }
 
 void	HardCade::listen()
@@ -130,6 +131,7 @@ void    HardCade::run()
 			this->listen();
 			libs.front().second->clear();
 			games.front().second->aff();
+			libs.front().second->refresh();
 			usleep(150000);
 		}
 		libs.front().second->clear();

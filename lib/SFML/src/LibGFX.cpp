@@ -10,8 +10,6 @@
 #include "LibGFX.hpp"
 
 namespace DynLib {
-
-	
 	
 	extern "C" IGfx *getObj()
 	{
@@ -21,35 +19,35 @@ namespace DynLib {
 	LibGFX::LibGFX()
 		:_lk(0)
 	{
-		_keys[0] = sf::Keyboard::A;
-		_keys[1] = sf::Keyboard::B;
-		_keys[2] = sf::Keyboard::C;
-		_keys[3] = sf::Keyboard::D;
-		_keys[4] = sf::Keyboard::E;
-		_keys[5] = sf::Keyboard::F;
-		_keys[6] = sf::Keyboard::G;
-		_keys[7] = sf::Keyboard::H;
-		_keys[8] = sf::Keyboard::I;
-		_keys[9] = sf::Keyboard::J;
-		_keys[10] = sf::Keyboard::K;
-		_keys[11] = sf::Keyboard::L;
-		_keys[12] = sf::Keyboard::M;
-		_keys[13] = sf::Keyboard::N;
-		_keys[14] = sf::Keyboard::O;
-		_keys[15] = sf::Keyboard::P;
-		_keys[16] = sf::Keyboard::Q;
-		_keys[17] = sf::Keyboard::R;
-		_keys[18] = sf::Keyboard::S;
-		_keys[19] = sf::Keyboard::T;
-		_keys[20] = sf::Keyboard::U;
-		_keys[21] = sf::Keyboard::V;
-		_keys[22] = sf::Keyboard::W;
-		_keys[23] = sf::Keyboard::X;
-		_keys[24] = sf::Keyboard::Y;
-		_keys[25] = sf::Keyboard::Z;
-		_keys[26] = sf::Keyboard::Escape;
-		_keys[27] = sf::Keyboard::Subtract;
-		_keys[28] = sf::Keyboard::Return;
+		_keys['a'] = sf::Keyboard::A;
+		_keys['b'] = sf::Keyboard::B;
+		_keys['c'] = sf::Keyboard::C;
+		_keys['d'] = sf::Keyboard::D;
+		_keys['e'] = sf::Keyboard::E;
+		_keys['f'] = sf::Keyboard::F;
+		_keys['g'] = sf::Keyboard::G;
+		_keys['h'] = sf::Keyboard::H;
+		_keys['i'] = sf::Keyboard::I;
+		_keys['j'] = sf::Keyboard::J;
+		_keys['k'] = sf::Keyboard::K;
+		_keys['l'] = sf::Keyboard::L;
+		_keys['m'] = sf::Keyboard::M;
+		_keys['n'] = sf::Keyboard::N;
+		_keys['o'] = sf::Keyboard::O;
+		_keys['p'] = sf::Keyboard::P;
+		_keys['q'] = sf::Keyboard::Q;
+		_keys['r'] = sf::Keyboard::R;
+		_keys['s'] = sf::Keyboard::S;
+		_keys['t'] = sf::Keyboard::T;
+		_keys['u'] = sf::Keyboard::U;
+		_keys['v'] = sf::Keyboard::V;
+		_keys['w'] = sf::Keyboard::W;
+		_keys['x'] = sf::Keyboard::X;
+		_keys['y'] = sf::Keyboard::Y;
+		_keys['z'] = sf::Keyboard::Z;
+		_keys[27] = sf::Keyboard::Escape;
+		_keys[263] = sf::Keyboard::BackSpace;
+		_keys[13] = sf::Keyboard::Return;
 		std::cout << "Graphic lib \"SFML\" loaded." << std::endl;
 	}
 
@@ -62,9 +60,7 @@ namespace DynLib {
 		sf::Texture	texture;
 
 		if (!texture.loadFromFile(path))
-		{
 			throw std::exception();
-		}
 		sprite.setColor(color);
 		sprite.setTexture(texture);
 	}
@@ -73,7 +69,7 @@ namespace DynLib {
 	{
 		(void)a;
 		(void)b;
-		_window.create(sf::VideoMode(/*a * SIZE, b * SIZE*/1600, 900), "Arcade");
+		_window.create(sf::VideoMode(/*a * SIZE, b * SIZE*/1920, 1080), "Arcade");
 		//	_window.setFramerateLimit(60);
 	        init_sprite(_sprite[PLAYER], sf::Color::Red, "texture/hokot6a.png");
 		init_sprite(_sprite[ENEMY], sf::Color::Cyan, "texture/hokot6a.png");
@@ -92,12 +88,11 @@ namespace DynLib {
 	{
 		_sprite[entity].setPosition(x * SIZE, y * SIZE);
 		_window.draw(_sprite[entity]);
-		_window.display();
 	}
 	
 	void	LibGFX::refresh()
 	{
-		//_window.display();
+		_window.display();
 	}
 
 	void	LibGFX::clear()
@@ -125,6 +120,7 @@ namespace DynLib {
 				return it->first;
 			}
 		}
+		_lk = -1;
 		return _lk;
 	}
 
@@ -144,9 +140,10 @@ namespace DynLib {
 			return ;
 		text.setFont(font);
 		text.setString(str);
-		text.setCharacterSize(10);
+		text.setCharacterSize(25);
 		text.setStyle(sf::Text::Bold);
-		text.setPosition(sf::Vector2f(x, y));
+		text.setFillColor(sf::Color::White);
+		text.setPosition(sf::Vector2f(x * SIZE, y * SIZE));
 		_window.draw(text);
 	}
 }

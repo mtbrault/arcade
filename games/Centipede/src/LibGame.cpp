@@ -16,7 +16,7 @@ namespace DynLib {
 	}
 
 	LibGame::LibGame()
-		:_stat(1), _lib(nullptr), _score(0), _player_pos(0), _map_x(20), _map_y(20), _isShot(0)
+		:_stat(1), _lib(nullptr), _score(0), _player_pos(0), _map_x(20), _map_y(20), _map(20), _isShot(0)
 	{
 		_entity[NONE] = 0;
 		_entity[PLAYER] = 1;
@@ -37,7 +37,7 @@ namespace DynLib {
 	{
 		_map.reserve(_map_x);
 		for (auto x = 0; x < _map_x; x++) {
-			_map[x].reserve(_map_y);
+			_map[x] = std::vector<int>(_map_y);
 			for (auto y = 0; y < _map_y; y++)
 				_map[x][y] = (x == 0 || x == (_map_x - 1) || y == 0 ? _entity[WALL] : _entity[NONE]);
 		}

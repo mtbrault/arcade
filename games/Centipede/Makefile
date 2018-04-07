@@ -5,11 +5,11 @@
 ## Pacman makefile
 ##
 
-CXX		= g++
+CXX		= g++ -g3
 
 RM		= rm -f
 
-NAME		= ../lib_arcade_pacman.so
+NAME		= ../lib_arcade_centipede.so
 
 SRC		= src/LibGame.cpp
 

@@ -38,7 +38,6 @@ namespace DynLib {
 		std::string	getSprite();
 		char		getChar();
 		int		getColor();
-		
 
 	private:
 		void		fillObstacle();
