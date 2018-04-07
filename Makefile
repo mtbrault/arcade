@@ -27,7 +27,7 @@ core: $(OBJS)
 	$(CXX) $(OBJS) -o $(NAME)  $(CXXFLAGS)
 
 games:
-	# make -C games/Centipede/
+	make -C games/Centipede/
 	make -C games/Nibbler/
 
 graphicals:
