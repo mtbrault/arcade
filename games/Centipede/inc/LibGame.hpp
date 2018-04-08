@@ -16,19 +16,12 @@
 
 namespace DynLib {
 
-	/*typedef struct			obstacle_s
-	{
-		int			x;
-		int			y;
-		int			life;
-		struct obstacle_s	*nex:t;
-	}*				obstacle_t;*/
-
 	typedef std::pair<int, int> posxy;
 
-	struct		Centipede {
-		int		dir;
-		std::vector<posxy> body;
+	struct		Centipede
+	{
+		int			dir;
+		std::vector<posxy>	body;
 	};
 
 	class   LibGame : public IGame {
@@ -57,15 +50,15 @@ namespace DynLib {
 		const int sizex = 20;
 		const int sizey = 20;
 
-		DynLib::IGfx 			*_lib;
+		DynLib::IGfx				*_lib;
 		posxy					_pos;
 		posxy					_shot;
-		std::map<posxy, int> 	_obs;
-		std::vector<Centipede> 	_cents;
-		int						_score;
-		int						_stat;
+		std::map<posxy, int>			_obs;
+		std::vector<Centipede>			_cents;
+		int					_score;
+		int					_stat;
 		bool					_init;
-		std::map<int, posxy>	_dirs;
+		std::map<int, posxy>			_dirs;
 		std::chrono::system_clock::time_point	_clock;
 	};
 }

@@ -32,7 +32,6 @@ games:
 
 graphicals:
 	make -C ./lib/Ncurses
-	# make -C ./lib/OpenGL
 	make -C ./lib/SFML
 
 clean:
@@ -40,7 +39,6 @@ clean:
 	make clean -C ./games/Centipede
 	make clean -C ./games/Nibbler
 	make clean -C ./lib/Ncurses
-	make clean -C ./lib/OpenGL
 	make clean -C ./lib/SFML
 
 fclean: clean
@@ -48,7 +46,6 @@ fclean: clean
 	make fclean -C ./games/Centipede
 	make fclean -C ./games/Nibbler
 	make fclean -C ./lib/Ncurses
-	make fclean -C ./lib/OpenGL
 	make fclean -C ./lib/SFML
 
 re: fclean all

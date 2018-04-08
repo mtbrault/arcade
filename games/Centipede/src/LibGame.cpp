@@ -52,7 +52,8 @@ namespace DynLib {
 		loadObstacles();
 	}
 
-	void	LibGame::movePlayer(posxy dir) {
+	void	LibGame::movePlayer(posxy dir)
+	{
 		posxy tmp = {_pos.first + dir.first, _pos.second + dir.second};
 		auto it = _obs.find(tmp);
 		if (it != _obs.end())
@@ -69,7 +70,8 @@ namespace DynLib {
 			_pos.second = sizey - sizey / 5;
 	}
 
-	void 	LibGame::shoot() {
+	void 	LibGame::shoot()
+	{
 		if (_shot.first != -1 && _shot.second != -1)
 			return ;
 		_shot = {_pos.first, _pos.second - 1};
@@ -88,7 +90,8 @@ namespace DynLib {
 			_stat = 0;
 	}
 
-	void	LibGame::moveShot() {
+	void	LibGame::moveShot()
+	{
 		posxy tmp = {_shot.first, _shot.second - 1};
 		if (tmp.second == 0) {
 			_shot = {-1, -1};
@@ -153,9 +156,8 @@ namespace DynLib {
 		auto now = std::chrono::system_clock::now();
 		auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(now - _clock);
 		checkDir();
-		if (_stat == 0/* || milliseconds.count() < 12*/)
+		if (_stat == 0)
 			return ;
-		// moves
 		moveShot();
 		if (milliseconds.count() >= 500) {
 			centipeder();
