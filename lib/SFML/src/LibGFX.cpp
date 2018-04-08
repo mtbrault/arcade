@@ -63,6 +63,7 @@ namespace DynLib {
 			throw std::exception();
 		sprite.setColor(color);
 		sprite.setTexture(texture);
+		sprite.setScale(0.3f, 0.3f);
 	}
 	
 	void    LibGFX::init(int a, int b)
@@ -85,7 +86,7 @@ namespace DynLib {
 
 	void	LibGFX::display(int x, int y, ENTITY entity)
 	{
-		_sprite[entity].setPosition(x * SIZE, y * SIZE);
+		_sprite[entity].setPosition(x * 40, y * 40);
 		_window.draw(_sprite[entity]);
 	}
 	

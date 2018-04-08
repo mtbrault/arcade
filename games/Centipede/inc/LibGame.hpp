@@ -55,7 +55,7 @@ namespace DynLib {
 		void		movePlayer(posxy);
 
 		const int sizex = 20;
-		const int sizey = 30;
+		const int sizey = 20;
 
 		DynLib::IGfx 			*_lib;
 		posxy					_pos;

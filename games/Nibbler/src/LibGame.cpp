@@ -140,12 +140,12 @@ namespace DynLib {
 	
 	int	LibGame::getLine()
 	{
-		return (0);
+		return (20);
 	}
 
 	int	LibGame::getColumn()
 	{
-		return (0);
+		return (20);
 	}
 
 	bool	LibGame::checkEnd()

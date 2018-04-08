@@ -119,8 +119,8 @@ namespace DynLib {
 			c = '#';
 		else if (ent == DynLib::ENTITY::ITEM)
 			c = '*';
-		else if (ent == DynLib::ENTITY::OBSTACLE)
-			c = '^';
+		else if (ent == DynLib::ENTITY::ENEMY)
+			c = 'X';
 		mvprintw(y, x, &c);
 		refresh();
 	}

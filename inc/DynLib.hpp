@@ -33,15 +33,12 @@ namespace   DynLib {
         virtual int getKey() = 0;
         virtual int getLastKey() = 0;
         virtual ENTITY getOnWin(int x, int y) = 0;
-        // virtual void    display(std::pair<std::size_t, std::size_t>,
-        //                         ENTITY, DynLib::IGame &) = 0;
         virtual void dispText(int x, int y, std::string) = 0;
 };
 
     class   IGame {
     public:
         virtual ~IGame() = default;
-
         virtual void setLibGfx(DynLib::IGfx &) = 0;
         virtual void init() = 0;
         virtual void aff() = 0;
