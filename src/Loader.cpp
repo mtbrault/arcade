@@ -28,7 +28,8 @@ void	Loader::fillLibrary()
 {
 	std::string tmp = _fname;
 	tmp = tmp.substr(tmp.find_last_of("/") + 1, -3);
-	tmp = tmp.erase(tmp.length() - 3);
+	if (tmp.length() > 3)
+		tmp = tmp.erase(tmp.length() - 3);
 	setLibrary(_gfxLibs, std::string("./lib"));
 	setLibrary(_gamesLibs, std::string("./games"));
 	auto it = std::find_if(_gfxLibs.begin(), _gfxLibs.end(),

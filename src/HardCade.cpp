@@ -135,6 +135,7 @@ void    HardCade::run()
 			usleep(150000);
 		}
 		libs.front().second->clear();
+		//usleep(50000);
 	}
 	libs.front().second->destroy();	
 }

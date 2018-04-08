@@ -21,7 +21,7 @@ namespace DynLib {
 	}
 
 	LibGFX::LibGFX()
-		:_lk(0)
+		:_lk(-1)
 	{
 		std::cout << "Graphic lib \"Ncurses\" loaded." << std::endl;
 	}
@@ -87,7 +87,12 @@ namespace DynLib {
 	
 	int	LibGFX::getKey()
 	{
-		_lk = getch();
+		int tmp = getch();
+		_lk = tmp;
+		while (tmp != -1) {
+			_lk = tmp;
+			tmp = getch();
+		}
 		return (_lk);
 	}
 

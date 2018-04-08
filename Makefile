@@ -33,7 +33,7 @@ games:
 graphicals:
 	make -C ./lib/Ncurses
 	# make -C ./lib/OpenGL
-	# make -C ./lib/SFML
+	make -C ./lib/SFML
 
 clean:
 	$(RM) $(OBJS)

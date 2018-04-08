@@ -16,16 +16,14 @@ namespace DynLib {
 	}
 
 	LibGame::LibGame()
-		:_stat(1), _lib(nullptr), _score(0), _player_pos(0), _map_x(20), _map_y(20), _map(20), _isShot(0)
+		:_lib(nullptr), _pos(sizex / 2, sizey - 1), _shot(-1, -1), _obs(), _cents(), 
+		_stat(1), _init(0), _dirs(), _clock(std::chrono::system_clock::now())
 	{
-		_entity[NONE] = 0;
-		_entity[PLAYER] = 1;
-		_entity[OBSTACLE] = 2;
-		_entity[ENEMY] = 3;
-		_entity[ITEM] = 4;
-		_entity[WALL] = 5;
-		_shotCoord = std::make_pair(-1, -1);
 		std::cout << "Game \"Centipede\" loaded." << std::endl;
+		_dirs['z'] = std::make_pair(0, -1);
+		_dirs['q'] = std::make_pair(-1, 0);
+		_dirs['s'] = std::make_pair(0, 1);
+		_dirs['d'] = std::make_pair(1, 0);
 		init();
 	}
 
@@ -33,146 +31,149 @@ namespace DynLib {
 	{
 	}
 
-	void	LibGame::init()
+	void 	LibGame::loadObstacles() 
 	{
-		_map.reserve(_map_x);
-		for (auto x = 0; x < _map_x; x++) {
-			_map[x] = std::vector<int>(_map_y);
-			for (auto y = 0; y < _map_y; y++)
-				_map[x][y] = (x == 0 || x == (_map_x - 1) || y == 0 ? _entity[WALL] : _entity[NONE]);
+		for (auto nb = 0 ; nb < sizex ; nb += 1) {
+			posxy tmp = {rand() % sizex, rand() % sizey};
+			if ((tmp.first != _pos.first || tmp.second != _pos.second) && _obs.find(tmp) == _obs.end())
+				_obs[tmp] = 5;
 		}
-		initObstacle();
 	}
 
-	void	LibGame::shot()
+	void	LibGame::init()
 	{
-		if (_isShot == 1)
+		if (_init == 1) {
+			_stat = 1;
 			return ;
-		_isShot = 1;
-		_shotCoord = std::make_pair(_player_pos + 1, _map_y);
+		}
+		_init = 1;
+		_stat = 1;
+		_pos = {sizex / 2, sizey - 1};
+		loadObstacles();
 	}
-	
+
+	void	LibGame::movePlayer(posxy dir) {
+		posxy tmp = {_pos.first + dir.first, _pos.second + dir.second};
+		auto it = _obs.find(tmp);
+		if (it != _obs.end())
+			return ;
+		_pos.first += dir.first;
+		_pos.second += dir.second;
+		if (_pos.first == 0)
+			_pos.first = 1;
+		else if (_pos.first == sizex - 1)
+			_pos.first = sizex - 2;
+		if (_pos.second == sizey - 1)
+		  _pos.second = sizey - 2;
+		else if (_pos.second < sizey - sizey / 5)
+			_pos.second = sizey - sizey / 5;
+	}
+
+	void 	LibGame::shoot() {
+		if (_shot.first != -1 && _shot.second != -1)
+			return ;
+		_shot = {_pos.first, _pos.second - 1};
+	}
+
 	void	LibGame::checkDir()
 	{
 		int	key = _lib->getLastKey();
+		auto it = _dirs.find(key);
 
-		if ((char)key == 'd') {
-			if (_player_pos < (_map_x - 3))
-				_player_pos += 1;
-		}
-		else if ((char)key == 'q') {
-			if (_player_pos > 0)
-				_player_pos -= 1;
-		}
+		if (it != _dirs.end())
+			movePlayer(it->second);
 		else if ((char)key == ' ')
-			shot();
+			shoot();
 		else if (key == 27)
 			_stat = 0;
 	}
 
-	ENTITY	LibGame::getEntity(int val)
-	{
-		for (auto it = _entity.begin(); it != _entity.end(); it++) {
-			if (it->second == val)
-				return it->first;
-		}
-		return ENTITY::NONE;
-	}
-
-	int	LibGame::checkObstacle(int x, int y)
-	{
-		if (x == -1 || y == -1)
-			return 1;
-		for (auto it = _obstacle.begin(); it != _obstacle.end(); it++) {
-			if (it->x == x && it->y == y && it->life > 0)
-				return 1;
-		}
-		return 0;
-	}
-	
-	void	LibGame::initObstacle()
-	{
-		int		x = -1;
-		int		y = -1;
-		obstacle_t	obstacle;
-
-		for (int i = 0; i < 7; i++) {
-		        while (checkObstacle(x, y) == 1) {
-				x = (rand() % (_map_x - 1)) + 1;
-				y = (rand() % (_map_y - 1)) + 1;
-			}
-			obstacle.x = x;
-			obstacle.y = y;
-			obstacle.life = 5;
-			_obstacle.push_back(obstacle);
-		}
-	}
-	
-	void	LibGame::fillObstacle()
-	{
-		for (auto it = _obstacle.begin(); it != _obstacle.end(); it++) {
-			if (it->life > 0)
-				_map[it->x][it->y] = _entity[OBSTACLE];
-		}
-	}
-
-	void	LibGame::touchObstacle(int x, int y)
-	{
-		for (auto it = _obstacle.begin(); it != _obstacle.end(); it++) {
-			if (it->x == x && it->y == y)
-				it->life -= 1;
-		}
-	}
-	
-	void	LibGame::moveShot()
-	{
-		int	result;
-		
-		if (_isShot == 0)
+	void	LibGame::moveShot() {
+		posxy tmp = {_shot.first, _shot.second - 1};
+		if (tmp.second == 0) {
+			_shot = {-1, -1};
 			return ;
-		if ((result = _map[_shotCoord.first][_shotCoord.second - 1]) != _entity[NONE]) {
-			if (result == _entity[OBSTACLE])
-				touchObstacle(_shotCoord.first, _shotCoord.second - 1);
-			_isShot = 0;		
 		}
-		else {
-			if (_shotCoord.second > 1)
-				_shotCoord.second -= 1;
-			else
-				_isShot = 0;
+		auto it = _obs.begin();
+		for (it = _obs.begin() ; it != _obs.end() && (it->first.first != tmp.first || it->first.second != tmp.second) ; ++it);
+		if (it != _obs.end()) {
+			if (!(--it->second))
+				_obs.erase(it);
+			_shot = {-1, -1};
+			return ;
 		}
-	        _map[_shotCoord.first][_shotCoord.second] = _entity[ITEM];	
+		for (auto it = _cents.begin() ; it != _cents.end() ; ++it) {
+			auto find = it->body.begin();
+			for (find = it->body.begin() ; find != it->body.end() && (find->first != _shot.first || find->second != _shot.second) ; ++find);
+			if (find != it->body.end()) {
+				if (it->body.size() > 1) {
+					std::vector<posxy> cut = std::vector<posxy>(find + 1, it->body.end());
+					std::vector<posxy> tmp = std::vector<posxy>(it->body.begin(), find);
+					_obs[*find] = 5;
+					it->body = tmp;
+					if (cut.size() > 0) {
+						cut[0].second += 1;
+						_cents.push_back((Centipede){it->dir * -1, cut});
+					}
+				} else
+					_cents.erase(it);
+				_shot = {-1, -1};
+				return ;
+			}
+		}
+		_shot = tmp;
 	}
-	
+
+	void	LibGame::centipeder()
+	{
+		if (_cents.size() == 0) {
+			Centipede tmp = {1, {{0, 1},{-1, 1},{-2, 1},{-3, 1},{-4, 1}}};
+			_cents.push_back(tmp);
+		}
+		for (auto it = _cents.begin() ; it != _cents.end() ; ++it) {
+			posxy tmp = (it->body)[0];
+			tmp.first += it->dir;
+			auto find = _obs.find(tmp);
+			if (tmp.first == sizex - 1 || tmp.first == 0 || find != _obs.end()) {
+				tmp.first -= it->dir;
+				tmp.second += 1;
+				it->dir *= -1;
+			}
+			if (tmp.second >= sizey - 1 || (tmp.first == _pos.first && tmp.second == _pos.second)) {
+				_stat = 0;
+				_init = 0;
+			}
+			it->body.insert(it->body.begin(), tmp);
+			it->body.pop_back();
+		}
+	}
+
 	void	LibGame::aff()
 	{
 		auto now = std::chrono::system_clock::now();
 		auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(now - _clock);
-
-		if (_stat == 0 || milliseconds.count() < 12)
-			return ;
-		for (int y = 1; y < _map_y; y++) {
-			for (int x = 1; x < (_map_x - 1); x++) {
-				_map[x][y] = _entity[NONE];
-			}
-		}
-		fillObstacle();
 		checkDir();
+		if (_stat == 0/* || milliseconds.count() < 12*/)
+			return ;
+		// moves
 		moveShot();
-		//Y a t il un tir ou un snake ?
-		for (int y = 0; y < _map_y; y++) {
-			for (int x = 0; x < _map_x; x++) {
-				_lib->display(x, y, getEntity(_map[x][y]));
+		if (milliseconds.count() >= 500) {
+			centipeder();
+			_clock = std::chrono::system_clock::now();
+		}
+		_lib->clear();
+		_lib->display(_pos.first, _pos.second, DynLib::ENTITY::PLAYER);
+		if (_shot.first != -1 && _shot.second != -1)
+			_lib->display(_shot.first, _shot.second, DynLib::ENTITY::ITEM);
+		for (auto it = _obs.begin() ; it != _obs.end() ; ++it)
+			_lib->display(it->first.first, it->first.second, DynLib::ENTITY::WALL);
+		for (auto it = _cents.begin() ; it != _cents.end() ; ++it) {
+			for (auto it2 = it->body.begin() ; it2 != it->body.end() ; ++it2) {
+				if (it2->first > 0 && it2->first < sizex - 1)
+					_lib->display(it2->first, it2->second, DynLib::ENTITY::ENEMY);
 			}
 		}
-		_lib->display(0, (_map_y), ENTITY::WALL);
-		for (int x = 1; x < (_map_x - 1); x++) {
-			_lib->display(x, _map_y, ((x - 1) == _player_pos ? ENTITY::PLAYER : ENTITY::NONE));
-		}
-		_lib->display((_map_x - 1), (_map_y), ENTITY::WALL);
-		for (int x = 0; x < _map_x; x++)
-			_lib->display(x, _map_y + 1, ENTITY::WALL);
-		_clock = std::chrono::system_clock::now();
+		
 	}
 	
 	void	LibGame::setLibGfx(DynLib::IGfx &lib)
@@ -182,12 +183,12 @@ namespace DynLib {
 
 	int	LibGame::getLine()
 	{
-		return 0;
+		return sizey;
 	}
 	
 	int	LibGame::getColumn()
 	{
-		return 0;
+		return sizex;
 	}
 	
 	bool	LibGame::checkEnd()

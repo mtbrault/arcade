@@ -76,11 +76,12 @@ namespace DynLib {
 			_stat = 0;
 			return ;
 		}
+		//moveSnek();
 	}
 
 	void	LibGame::moveSnek()
 	{
-		pos	next = std::make_pair(_snek.begin()->first + _dir.begin()->first, 
+		pos	next = std::make_pair(_snek.begin()->first + _dir.begin()->first,
 								_snek.begin()->second + _dir.begin()->second);
 		(void)next;
 		if (next.first <= 0 || next.first >= 19 || next.second <= 0 || next.second >= 19 ||
@@ -105,12 +106,12 @@ namespace DynLib {
 	{
 		auto now = std::chrono::system_clock::now();
 		auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(now - _clock);
-		if (milliseconds.count() < 12 || !_stat)
+		if (milliseconds.count() < 20 || !_stat)
 			return ;
-		checkDir();
-		if (_stat == 0)
-			return ;
-		moveSnek();
+		//if (milliseconds.count() < 5000000) {
+			checkDir();
+			moveSnek();
+		//}
 		for (auto x = 1 ; x < 19 ; x += 1) {
 			for (auto y = 1 ; y < 19 ; y += 1)
 					_map[y][x] = '0';
