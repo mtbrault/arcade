@@ -26,6 +26,10 @@ namespace DynLib {
 		std::cout << "Graphic lib \"Ncurses\" loaded." << std::endl;
 	}
 	
+	LibGFX::~LibGFX()
+	{
+	}
+
 	void            nonCanon(const char reset)
 	{
 		static struct termios _oldt;

@@ -69,8 +69,7 @@ namespace DynLib {
 	{
 		(void)a;
 		(void)b;
-		_window.create(sf::VideoMode(/*a * SIZE, b * SIZE*/1920, 1080), "Arcade");
-		//	_window.setFramerateLimit(60);
+		_window.create(sf::VideoMode(1920, 1080), "Arcade");
 	        init_sprite(_sprite[PLAYER], sf::Color::Red, "texture/hokot6a.png");
 		init_sprite(_sprite[ENEMY], sf::Color::Cyan, "texture/hokot6a.png");
 		init_sprite(_sprite[OBSTACLE], sf::Color::White, "texture/hokot6a.png");

@@ -15,24 +15,19 @@ namespace DynLib {
 	class   LibGFX : public IGfx {
 	public:
 		LibGFX();
-		virtual ~LibGFX() {};
+		~LibGFX();
 
 		void init(int, int);
-		virtual void destroy();
-		virtual void display(int x, int y, ENTITY entity);
-		virtual void refresh();
-		virtual void clear();
-		virtual int getKey();
-		virtual int getLastKey();
-		virtual ENTITY getOnWin(int x, int y);
-		// virtual void    display(std::pair<std::size_t, std::size_t>,                                  
-		//                         ENTITY, DynLib::IGame &) = 0;                                         
-		virtual void dispText(int x, int y, std::string);
+		void destroy();
+		void display(int x, int y, ENTITY entity);
+		void refresh();
+		void clear();
+		int getKey();
+		int getLastKey();
+		ENTITY getOnWin(int x, int y);
+		void dispText(int x, int y, std::string);
 
 	private:
-
-		//void		nonCanon(const char);
-
 		int  		_lk;
 
        };

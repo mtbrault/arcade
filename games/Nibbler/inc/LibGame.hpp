@@ -21,17 +21,17 @@ namespace DynLib {
 	class   LibGame : public IGame {
 	public:
 		LibGame();
-		virtual ~LibGame() {};
+		~LibGame();
 
-		virtual void setLibGfx(DynLib::IGfx &);
-		virtual void init();
-		virtual void aff();
-		virtual int getLine();
-		virtual int getColumn();
-		virtual bool checkEnd();
-		virtual std::string getSprite();
-		virtual char getChar();
-		virtual int getColor();
+		void setLibGfx(DynLib::IGfx &);
+		void init();
+		void aff();
+		int getLine();
+		int getColumn();
+		bool checkEnd();
+		std::string getSprite();
+		char getChar();
+		int getColor();
 
 	private:
 		void	checkDir();
@@ -39,15 +39,15 @@ namespace DynLib {
 		void	showSnek();
 		void	placeBonus();
 		
-		std::vector<std::vector<int>>	_map;
-		DynLib::IGfx					*_lib;
-		int								_score;
-		std::vector<pos>				_snek;
-		std::vector<pos>				_dir;
-		pos								_bonus;
-		int 							_stat;
-		bool							_init;
-		std::chrono::system_clock::time_point _clock;
+		std::vector<std::vector<int>>		_map;
+		DynLib::IGfx				*_lib;
+		int					_score;
+		std::vector<pos>			_snek;
+		std::vector<pos>			_dir;
+		pos					_bonus;
+		int 					_stat;
+		bool					_init;
+		std::chrono::system_clock::time_point	_clock;
 	};
 }
 #endif

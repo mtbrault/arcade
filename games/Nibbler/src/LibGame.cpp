@@ -24,6 +24,10 @@ namespace DynLib {
 		init();
 	}
 
+	LibGame::~LibGame()
+	{
+	}
+	
 	void	LibGame::placeBonus()
 	{
 		_bonus = std::make_pair((rand() % 18) + 1, (rand() % 18) + 1);
@@ -83,19 +87,12 @@ namespace DynLib {
 			_map[next.second][next.first] == '1') {
 			_stat = 0;
 			_init = 0;
-			//_snek.clear();
 			return ;
 		} else if (_map[next.second][next.first] != '3') {
-			//_map[_snek.end()->second][_snek.end()->first] = '0';
 			_snek.erase(_snek.end());
 		} else if (next.first == _bonus.first || next.second == _bonus.second)
 			placeBonus();
 		_snek.insert(_snek.begin(), next);
-		//_map[_snek.begin()->second][_snek.begin()->first] = '1';
-		/*for (auto it = _snek.begin() ; it != _snek.end() ; ++it) {
-			printf("(%d;%d),", it->first, it->second);
-		}
-		printf("\n");*/
 	}
 
 	void	LibGame::showSnek()
